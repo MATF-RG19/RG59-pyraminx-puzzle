@@ -6,10 +6,11 @@ static int window_width, window_height;
 
 static void on_reshape(int width, int height);
 static void on_display(void);
+void draw_axes(void);
 
 int main(int argc,char** argv){
 
-  /* inicijalizuje se GLUT. */
+  /* inicijalizuje se GLUT*/
   glutInit(&argc, argv);
   glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
 
@@ -53,7 +54,7 @@ static void on_display(void)
 {
 
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  //polozaj kamere
+  /*Polozaj kamere*/
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	gluLookAt(
@@ -61,6 +62,36 @@ static void on_display(void)
 		0, 0, 0,
 		0, 1, 0
 	);
+  draw_axes();
 	glutSwapBuffers();
+
+}
+
+void draw_axes(){
+  /*Crvena x osa*/
+	glColor3f(1.0, 0.0, 0.0);
+	glLineWidth(1);
+  glBegin(GL_LINES);
+    glVertex3f(-4.0, 0.0f, 0.0f);
+	  glVertex3f(4.0, 0.0f, 0.0f);
+  glEnd();
+	glFlush();
+
+	/*Zelena y osa*/
+	glColor3f(0.0, 1.0, 0.0);
+	glBegin(GL_LINES);
+	  glVertex3f(0.0, -4.0f, 0.0f);
+	  glVertex3f(0.0, 4.0f, 0.0f);
+	glEnd();
+	glFlush();
+
+	/*Plava z osa*/
+	glColor3f(0.0, 0.0, 1.0); // blue z
+	glBegin(GL_LINES);
+	  glVertex3f(0.0, 0.0f, -4.0f);
+	  glVertex3f(0.0, 0.0f, 4.0f);
+
+	glEnd();
+	glFlush();
 
 }
