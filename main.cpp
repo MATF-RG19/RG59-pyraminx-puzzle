@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <GL/glut.h>
 #include <math.h>
+#include "Pyramid.h"
 
 static int window_width, window_height;
 
@@ -63,6 +64,19 @@ static void on_display(void)
 		0, 1, 0
 	);
   draw_axes();
+
+  /*Iscrtava se piramimda*/
+  Pyramid A11 = Pyramid(Point(0.0f, 0.0f, 0.0f));
+	Pyramid A12 = Pyramid(A11.PointDownRight);
+	Pyramid A13 =  Pyramid(A12.PointDownRight);
+	Pyramid A21 = Pyramid(A11.PointDownMiddle);
+	Pyramid A22 = Pyramid(A21.PointDownRight);
+	Pyramid A31 = Pyramid(A21.PointDownMiddle);
+	Pyramid B11 = Pyramid(A11.PointUp);
+	Pyramid B12 = Pyramid(B11.PointDownRight);
+	Pyramid B21 = Pyramid(B11.PointDownMiddle);
+	Pyramid C11 = Pyramid(B11.PointUp);
+
 	glutSwapBuffers();
 
 }
