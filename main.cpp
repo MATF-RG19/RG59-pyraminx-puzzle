@@ -68,7 +68,7 @@ static void on_display(void)
   /*Iscrtava se piramimda*/
   Pyramid A11 = Pyramid(Point(0.0f, 0.0f, 0.0f));
 	Pyramid A12 = Pyramid(A11.PointDownRight);
-	Pyramid A13 =  Pyramid(A12.PointDownRight);
+	Pyramid A13 = Pyramid(A12.PointDownRight);
 	Pyramid A21 = Pyramid(A11.PointDownMiddle);
 	Pyramid A22 = Pyramid(A21.PointDownRight);
 	Pyramid A31 = Pyramid(A21.PointDownMiddle);
@@ -76,6 +76,26 @@ static void on_display(void)
 	Pyramid B12 = Pyramid(B11.PointDownRight);
 	Pyramid B21 = Pyramid(B11.PointDownMiddle);
 	Pyramid C11 = Pyramid(B11.PointUp);
+
+
+  /*Iscrtavaju se trouglovi kako bi se dopunio ceo oblik piramide*/
+  Triangle Front11, Front12, Front21, Left11, Left12, Left21, Right11, Right12, Right21, Bottom11, Bottom12, Bottom21;
+
+  Front11 = Triangle(A11.PointDownRight, A11.PointUp, A12.PointUp, Green);
+  Front12 = Triangle(A12.PointDownRight, A12.PointUp, A13.PointUp, Green);
+  Front21 = Triangle(B11.PointDownRight, B11.PointUp, B12.PointUp,  Green);
+
+  Left11 = Triangle(A11.PointDownMiddle, A11.PointUp, A21.PointUp, Blue);
+  Left12 = Triangle(A21.PointDownMiddle, A21.PointUp, A31.PointUp, Blue);
+  Left21 = Triangle(B11.PointDownMiddle, B11.PointUp, B21.PointUp, Blue);
+
+  Right11 = Triangle(A13.PointDownMiddle, A13.PointUp, A22.PointUp, Yellow);
+  Right12 = Triangle(A22.PointDownMiddle, A22.PointUp, A31.PointUp, Yellow);
+  Right21 = Triangle(B12.PointDownMiddle, B12.PointUp, B21.PointUp, Yellow);
+
+  Bottom11 = Triangle(A11.PointDownRight, A11.PointDownMiddle, A12.PointDownMiddle, Red);
+  Bottom12 = Triangle(A12.PointDownRight, A12.PointDownMiddle, A13.PointDownMiddle, Red);
+  Bottom21 = Triangle(A21.PointDownRight, A21.PointDownMiddle, A22.PointDownMiddle, Red);
 
 	glutSwapBuffers();
 
