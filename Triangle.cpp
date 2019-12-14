@@ -8,7 +8,6 @@ Triangle::Triangle()
 	p2 = Point();
 	p3 = Point();
 	color = Red;
-	Draw();
 }
 
 Triangle::Triangle(Point pp1, Point pp2, Point pp3, Color c1)
@@ -17,7 +16,7 @@ Triangle::Triangle(Point pp1, Point pp2, Point pp3, Color c1)
 	p2 = Point(pp2);
 	p3 = Point(pp3);
 	color = c1;
-	Draw();
+
 }
 
 void Triangle::Draw()
