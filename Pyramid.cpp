@@ -14,8 +14,8 @@ Pyramid::Pyramid(Point PointDownLeft1)
 {
 	PointDownLeft = Point(PointDownLeft1);
 	PointDownRight = Point(PointDownLeft1.x + 1.0f, PointDownLeft1.y, PointDownLeft1.z);
-	PointDownMiddle = Point(PointDownLeft1.x + 0.5f, PointDownLeft1.y, PointDownLeft1.z - sqrt(3)/2);
-	PointUp = Point(PointDownLeft1.x + 0.5f, PointDownLeft1.y + sqrt(3)/2, PointDownLeft1.z - sqrt(3)/6 );
+	PointDownMiddle = Point(PointDownLeft1.x + 0.5f, PointDownLeft1.y, PointDownLeft1.z + sqrt(3)/2);
+	PointUp = Point(PointDownLeft1.x + 0.5f, PointDownLeft1.y + sqrt(3)/2, PointDownLeft1.z + sqrt(3)/6 );
 	Draw();
 }
 /*Kreiranje piramide uz pomoc 4 tacke*/

@@ -4,7 +4,10 @@
 #include "Pyramid.h"
 
 static int window_width, window_height;
+int  posx=0;
+int posy=0;
 
+static void on_keyboard(unsigned char key, int x, int y);
 static void on_reshape(int width, int height);
 static void on_display(void);
 void draw_axes(void);
@@ -21,6 +24,7 @@ int main(int argc,char** argv){
   glutCreateWindow(argv[0]);
 
   /* callback funkcije */
+  glutKeyboardFunc(on_keyboard);
   glutReshapeFunc(on_reshape);
   glutDisplayFunc(on_display);
   glutIdleFunc(on_display);
@@ -59,20 +63,29 @@ static void on_display(void)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	gluLookAt(
-		6, 6, 6,
+		6, 6, -6,
 		0, 0, 0,
 		0, 1, 0
 	);
   draw_axes();
 
+
+
+  /*rotacija oko tezista piramide*/
+  glTranslatef(1.5f, 0.0f, sqrt(3) / 2);
+	glRotatef(posx, 0.0f, 1.0f, 0.0f);
+	glRotatef(posy, 1.0f, 0.0f, 0.0f);
+	glTranslatef(-1.5f, 0.0f,  -sqrt(3) / 2);
+
+
   /*Iscrtava se piramimda*/
   Pyramid A11 = Pyramid(Point(0.0f, 0.0f, 0.0f));
 	Pyramid A12 = Pyramid(A11.PointDownRight);
 	Pyramid A13 = Pyramid(A12.PointDownRight);
-	Pyramid A21 = Pyramid(A11.PointDownMiddle);
+  Pyramid A21 = Pyramid(A11.PointDownMiddle);
 	Pyramid A22 = Pyramid(A21.PointDownRight);
 	Pyramid A31 = Pyramid(A21.PointDownMiddle);
-	Pyramid B11 = Pyramid(A11.PointUp);
+  Pyramid B11 = Pyramid(A11.PointUp);
 	Pyramid B12 = Pyramid(B11.PointDownRight);
 	Pyramid B21 = Pyramid(B11.PointDownMiddle);
 	Pyramid C11 = Pyramid(B11.PointUp);
@@ -97,7 +110,37 @@ static void on_display(void)
   Bottom12 = Triangle(A12.PointDownRight, A12.PointDownMiddle, A13.PointDownMiddle, Red);
   Bottom21 = Triangle(A21.PointDownRight, A21.PointDownMiddle, A22.PointDownMiddle, Red);
 
+
 	glutSwapBuffers();
+
+}
+
+
+
+static void on_keyboard(unsigned char key, int x, int y)
+{
+	switch (key) {
+	case 27:
+		exit(0);
+		break;
+	case 'd':
+    posx += 10;
+		break;
+	case 'a':
+    posx -= 10;
+		break;
+	case 'w':
+    posy -= 10;
+		break;
+	case 's':
+    posy += 10;
+		break;
+	}
+	if (abs(posx) >= 360)
+		posx = 0;
+	if (abs(posy) >= 360)
+		posy = 0;
+
 
 }
 
