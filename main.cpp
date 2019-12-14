@@ -70,12 +70,16 @@ static void on_display(void)
   draw_axes();
 
 
+  /*Translirati teziste srednje piramide na koordinanti pocetak*/
+	glTranslatef(-1.5f, -sqrt(6)/4,  -sqrt(3) / 2);
 
-  /*rotacija oko tezista piramide*/
-  glTranslatef(1.5f, 0.0f, sqrt(3) / 2);
+  /*Rotacija cele piramide oko tezista*/
+	glTranslatef(1.5f, sqrt(6) / 4,  sqrt(3) / 2);
 	glRotatef(posx, 0.0f, 1.0f, 0.0f);
 	glRotatef(posy, 1.0f, 0.0f, 0.0f);
-	glTranslatef(-1.5f, 0.0f,  -sqrt(3) / 2);
+	glTranslatef(-1.5f, -sqrt(6) / 4,  -sqrt(3) / 2);
+
+
 
   /*Pravljenje manjih piramida i iscrtavanje na scenu*/
 	Pyramid A11 = Pyramid(Point(0.0f, 0.0f, 0.0f));A11.Draw();
