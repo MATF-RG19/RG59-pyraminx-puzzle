@@ -10,6 +10,7 @@ int  posx=0;
 int posy=0;
 int topSmall = 0;
 int topMiddle=0;
+int bottomRight=0;
 
 static void on_keyboard(unsigned char key, int x, int y);
 static void on_reshape(int width, int height);
@@ -86,7 +87,7 @@ static void on_display(void)
 
 
   /*Pravljenje manjih piramida i iscrtavanje na scenu*/
-	Pyramid A11 = Pyramid(Point(0.0f, 0.0f, 0.0f));A11.Draw();
+	Pyramid A11 = Pyramid(Point(0.0f, 0.0f, 0.0f));//A11.Draw();
 	Pyramid A12 = Pyramid(A11.PointDownRight); A12.Draw();
   Pyramid A13 = Pyramid(A12.PointDownRight);A13.Draw();
 	Pyramid A21 = Pyramid(A11.PointDownMiddle); A21.Draw();
@@ -156,6 +157,14 @@ static void on_display(void)
 
   glPopMatrix();
 
+  /*Rotacija donje male piramide */
+  glPushMatrix();
+	glTranslatef(0.5f, sqrt(6) / 12, sqrt(3) / 6);
+	glRotatef(bottomRight, 0.5f, sqrt(6) / 12, sqrt(3) / 6);
+	glTranslatef(-0.5f, -sqrt(6) / 12, -sqrt(3) / 6);
+	A11.Draw();
+	glPopMatrix();
+
 	glutSwapBuffers();
 
 }
@@ -191,6 +200,12 @@ static void on_keyboard(unsigned char key, int x, int y)
   case 'e':
     topMiddle -= 60;
     break;
+  case 'f':
+  	bottomRight += 10;
+  	break;
+  case 'c':
+  	bottomRight -= 10;
+  	break;
 	}
 	if (abs(posx) >= 360)
 		posx = 0;
