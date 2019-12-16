@@ -4,8 +4,12 @@
 #include "Pyramid.h"
 
 static int window_width, window_height;
+
+
 int  posx=0;
 int posy=0;
+int topSmall = 0;
+int topMiddle=0;
 
 static void on_keyboard(unsigned char key, int x, int y);
 static void on_reshape(int width, int height);
@@ -90,11 +94,11 @@ static void on_display(void)
 	Pyramid A31 = Pyramid(A21.PointDownMiddle);A31.Draw();
 
 
-	Pyramid B11 = Pyramid(A11.PointUp);B11.Draw();
-	Pyramid B12 = Pyramid(B11.PointDownRight);B12.Draw();
-	Pyramid B21 = Pyramid(B11.PointDownMiddle);B21.Draw();
+	Pyramid B11 = Pyramid(A11.PointUp);
+	Pyramid B12 = Pyramid(B11.PointDownRight);
+  Pyramid B21 = Pyramid(B11.PointDownMiddle);
 
-	Pyramid C11 = Pyramid(B11.PointUp);C11.Draw();
+	Pyramid C11 = Pyramid(B11.PointUp);
 
   /*Pravljenje trouglova*/
   Triangle Front11, Front12, Front21, Left11, Left12, Left21, Right11, Right12, Right21, Bottom11, Bottom12, Bottom21;
@@ -118,22 +122,43 @@ static void on_display(void)
   /*Iscrtavanje trouglova na scenu da bi se dopunila piramida*/
 	Front11.Draw();
 	Front12.Draw();
-  Front21.Draw();
+  //Front21.Draw();
 	Left11.Draw();
 	Left12.Draw();
-  Left21.Draw();
+  //Left21.Draw();
 	Right11.Draw();
 	Right12.Draw();
-  Right21.Draw();
+  //Right21.Draw();
 	Bottom11.Draw();
 	Bottom12.Draw();
 	Bottom21.Draw();
 
+  /*Rotacija srednje piramide*/
+  glPushMatrix();
+  glTranslatef(1.5f, 0.0f, sqrt(3) / 2);
+  glRotatef(topMiddle, 0.0f, 1.0f, 0.0f);
+  glTranslatef(-1.5f, 0.0f, -sqrt(3) / 2);
+  B11.Draw();
+  B12.Draw();
+  B21.Draw();
+
+  Front21.Draw();
+  Left21.Draw();
+  Right21.Draw();
+
+  /*Rotacija male piramide na vrhu*/
+  glPushMatrix();
+  glTranslatef(1.5f, 0.0f, sqrt(3) / 2);
+  glRotatef(topSmall, 0.0f, 1.0f, 0.0f);
+  glTranslatef(-1.5f, 0.0f, -sqrt(3) / 2);
+  C11.Draw();
+  glPopMatrix();
+
+  glPopMatrix();
 
 	glutSwapBuffers();
 
 }
-
 
 
 static void on_keyboard(unsigned char key, int x, int y)
@@ -143,8 +168,8 @@ static void on_keyboard(unsigned char key, int x, int y)
 		exit(0);
 		break;
 	case 'd':
-    posx += 10;
-		break;
+    posx+=10;
+    break;
 	case 'a':
     posx -= 10;
 		break;
@@ -154,6 +179,18 @@ static void on_keyboard(unsigned char key, int x, int y)
 	case 's':
     posy += 10;
 		break;
+  case '1':
+  	topSmall += 60;
+  	break;
+  case '3':
+  	topSmall -=60;
+  	break;
+  case 'q':
+    topMiddle += 60;
+    break;
+  case 'e':
+    topMiddle -= 60;
+    break;
 	}
 	if (abs(posx) >= 360)
 		posx = 0;
