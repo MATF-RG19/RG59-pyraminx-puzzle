@@ -2,24 +2,31 @@
 #include <GL/glut.h>
 #include <math.h>
 #include "Pyramid.h"
+#include <iostream>
+#define TIMER_INTERVAL 10
+#define TIMER_ID 0
 
 static int window_width, window_height;
-
+static int animation_ongoing;
 
 int  posx=0;
 int posy=0;
 int topSmall = 0;
 int topMiddle=0;
 int bottomRight=0;
-
+int fi=0;
+int flag;
 static void on_keyboard(unsigned char key, int x, int y);
 static void on_reshape(int width, int height);
 static void on_display(void);
+static void on_timer(int);
 void draw_axes(void);
 
+using namespace std;
 int main(int argc,char** argv){
 
   /* inicijalizuje se GLUT*/
+  animation_ongoing = 0;
   glutInit(&argc, argv);
   glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
 
@@ -36,7 +43,6 @@ int main(int argc,char** argv){
 
   glClearColor(0.75, 0.75, 0.75, 0);
   glEnable(GL_DEPTH_TEST);
-
   glutMainLoop();
 
   return 0;
@@ -45,16 +51,16 @@ int main(int argc,char** argv){
 
 static void on_reshape(int width, int height)
 {
-	/*Pamti se sirina i visina*/
-	window_width = width;
-	window_height = height;
+  /*Pamti se sirina i visina*/
+  window_width = width;
+  window_height = height;
 
-	glViewport(0, 0, window_width, window_height);
+  glViewport(0, 0, window_width, window_height);
 
   /*Perspektiva*/
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	gluPerspective(
+  glMatrixMode(GL_PROJECTION);
+  glLoadIdentity();
+  gluPerspective(
 		60,
 		window_width / (float)window_height,
 		1, 20);
@@ -62,26 +68,27 @@ static void on_reshape(int width, int height)
 
 static void on_display(void)
 {
-
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   /*Polozaj kamere*/
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	gluLookAt(
-		6, 6, -6,
-		0, 0, 0,
-		0, 1, 0
-	);
+  glMatrixMode(GL_MODELVIEW);
+  glLoadIdentity();
+  gluLookAt(
+      6, 6, 6,
+      0, 0, 0,
+      0, 1, 0
+    );
+
   draw_axes();
 
 
+
   /*Translirati teziste srednje piramide na koordinanti pocetak*/
-	glTranslatef(-1.5f, -sqrt(6)/4,  -sqrt(3) / 2);
+  glTranslatef(-1.5f, -sqrt(6)/4,  -sqrt(3) / 2);
 
   /*Rotacija cele piramide oko tezista*/
-	glTranslatef(1.5f, sqrt(6) / 4,  sqrt(3) / 2);
-	glRotatef(posx, 0.0f, 1.0f, 0.0f);
-	glRotatef(posy, 1.0f, 0.0f, 0.0f);
+  glTranslatef(1.5f, sqrt(6) / 4,  sqrt(3) / 2);
+  glRotatef(fi, 0.0f, 1.0f, 0.0f);
+  glRotatef(posy, 1.0f, 0.0f, 0.0f);
 	glTranslatef(-1.5f, -sqrt(6) / 4,  -sqrt(3) / 2);
 
 
@@ -165,6 +172,7 @@ static void on_display(void)
 	A11.Draw();
 	glPopMatrix();
 
+
 	glutSwapBuffers();
 
 }
@@ -177,10 +185,18 @@ static void on_keyboard(unsigned char key, int x, int y)
 		exit(0);
 		break;
 	case 'd':
-    posx+=10;
+  	if (!animation_ongoing) {
+        animation_ongoing = 1;
+        flag=1;
+        glutTimerFunc(TIMER_INTERVAL, on_timer, TIMER_ID);
+    }
     break;
 	case 'a':
-    posx -= 10;
+  	if (!animation_ongoing) {
+        animation_ongoing = 1;
+        flag=-1;
+        glutTimerFunc(TIMER_INTERVAL, on_timer, TIMER_ID);
+    }
 		break;
 	case 'w':
     posy -= 10;
@@ -207,10 +223,6 @@ static void on_keyboard(unsigned char key, int x, int y)
   	bottomRight -= 10;
   	break;
 	}
-	if (abs(posx) >= 360)
-		posx = 0;
-	if (abs(posy) >= 360)
-		posy = 0;
 
 
 }
@@ -242,4 +254,26 @@ void draw_axes(){
 	glEnd();
 	glFlush();
 
+}
+static void on_timer(int value)
+{
+
+    if (value != TIMER_ID)
+      return;
+    if(flag==1)
+      fi+=10;
+    else
+      fi-=10;
+
+    if(abs(fi)%90==0){
+      animation_ongoing=0;
+      return;
+    }
+    /* Forsira se ponovno iscrtavanje prozora. */
+    glutPostRedisplay();
+
+    /* Po potrebi se ponovo postavlja tajmer. */
+    if (animation_ongoing) {
+        glutTimerFunc(TIMER_INTERVAL, on_timer, TIMER_ID);
+    }
 }
