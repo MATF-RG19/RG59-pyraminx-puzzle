@@ -1,6 +1,6 @@
 #include "Point.h"
 #include "Color.h"
-
+#pragma once
 class Triangle
 {
 public:

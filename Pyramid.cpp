@@ -1,5 +1,5 @@
 #include "Pyramid.h"
-#include <math.h>
+
 
 Pyramid::Pyramid()
 {
@@ -34,4 +34,14 @@ void Pyramid::Draw()
 	Triangle(PointDownLeft, PointDownRight, PointUp, Green).Draw();
 	Triangle(PointUp, PointDownRight, PointDownMiddle, Yellow).Draw();
 
+}
+void Pyramid::AddRotation(RotationConfiguration rotation)
+{
+	rotations.push_back(rotation);
+}
+
+
+Point Pyramid::GetCenter()
+{
+	return Point();
 }

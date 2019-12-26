@@ -2,9 +2,12 @@
 #include <GL/glut.h>
 #include <math.h>
 #include "Pyramid.h"
+#include "Pyramidix.h"
+
 #include <iostream>
 #define TIMER_INTERVAL 10
 #define TIMER_ID 0
+
 
 static int window_width, window_height;
 static int animation_ongoing;
@@ -16,17 +19,26 @@ int topMiddle=0;
 int bottomRight=0;
 int fi=0;
 int flag;
+
+Pyramidix PX;
+
+
 static void on_keyboard(unsigned char key, int x, int y);
 static void on_reshape(int width, int height);
 static void on_display(void);
 static void on_timer(int);
+static void on_display2(void);
 void draw_axes(void);
 
 using namespace std;
+
+
 int main(int argc,char** argv){
 
-  /* inicijalizuje se GLUT*/
+
+  PX = Pyramidix();
   animation_ongoing = 0;
+  /* inicijalizuje se GLUT*/
   glutInit(&argc, argv);
   glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
 
@@ -38,8 +50,8 @@ int main(int argc,char** argv){
   /* callback funkcije */
   glutKeyboardFunc(on_keyboard);
   glutReshapeFunc(on_reshape);
-  glutDisplayFunc(on_display);
-  glutIdleFunc(on_display);
+  glutDisplayFunc(on_display2);
+  glutIdleFunc(on_display2);
 
   glClearColor(0.75, 0.75, 0.75, 0);
   glEnable(GL_DEPTH_TEST);
@@ -65,7 +77,7 @@ static void on_reshape(int width, int height)
 		window_width / (float)window_height,
 		1, 20);
 }
-
+/*Ne koristi se trenutno*/
 static void on_display(void)
 {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -180,51 +192,69 @@ static void on_display(void)
 
 static void on_keyboard(unsigned char key, int x, int y)
 {
-	switch (key) {
-	case 27:
-		exit(0);
-		break;
-	case 'd':
-  	if (!animation_ongoing) {
-        animation_ongoing = 1;
-        flag=1;
-        glutTimerFunc(TIMER_INTERVAL, on_timer, TIMER_ID);
+  switch (key) {
+  	case 27:
+  		/* Zavrsava se program. */
+  		exit(0);
+  		break;
+  	case 'd':
+  		PX.RotationOnY += 10;
+  		break;
+  	case 'a':
+  		PX.RotationOnY -= 10;
+  		break;
+  	case 's':
+  		PX.RotationOnX -= 10;
+  		break;
+  	case 'q':
+  		PX.RotateTopBig(60);
+  		break;
+  	case 'Q':
+  		PX.RotateTopBig(-60);
+  		break;
+  	case 'w':
+  		PX.RotateBottomLeftBig(60);
+  		break;
+  	case 'W':
+  		PX.RotateBottomLeftBig(-60);
+  		break;
+  	case 'e':
+  		PX.RotateBottomRightBig(60);
+  		break;
+  	case 'E':
+  		PX.RotateBottomRightBig(-60);
+  		break;
+  	case 'r':
+  		PX.RotateBottomBehindBig(60);
+  		break;
+  	case 'R':
+  		PX.RotateBottomBehindBig(-60);
+  		break;
+  	case '1':
+  		PX.RotateTop(60);
+  		break;
+  	case '!':
+  		PX.RotateTop(-60);
+  		break;
+  	case '2':
+  		PX.RotateBottomLeft(60);
+  		break;
+  	case '@':
+  		PX.RotateBottomLeft(60);
+  		break;
+  	case '3':
+  		PX.RotateBottomRight(60);
+  		break;
+  	case '#':
+  		PX.RotateBottomRight(60);
+  		break;
+  	case '4':
+  		PX.RotateBottomBehind(60);
+  		break;
+  	case '$':
+  		PX.RotateBottomBehind(60);
+  		break;
     }
-    break;
-	case 'a':
-  	if (!animation_ongoing) {
-        animation_ongoing = 1;
-        flag=-1;
-        glutTimerFunc(TIMER_INTERVAL, on_timer, TIMER_ID);
-    }
-		break;
-	case 'w':
-    posy -= 10;
-		break;
-	case 's':
-    posy += 10;
-		break;
-  case '1':
-  	topSmall += 60;
-  	break;
-  case '3':
-  	topSmall -=60;
-  	break;
-  case 'q':
-    topMiddle += 60;
-    break;
-  case 'e':
-    topMiddle -= 60;
-    break;
-  case 'f':
-  	bottomRight += 10;
-  	break;
-  case 'c':
-  	bottomRight -= 10;
-  	break;
-	}
-
-
 }
 
 void draw_axes(){
@@ -254,6 +284,28 @@ void draw_axes(){
 	glEnd();
 	glFlush();
 
+}
+
+
+
+/*Pokusaj da se drugacije nacrta piramida*/
+static void on_display2(void)
+{
+	/* Brise se prethodni sadrzaj prozora. */
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	gluLookAt(
+		6, 6, -6,
+		0, 0, 0,
+		0, 1, 0
+	);
+
+	PX.Draw();
+  draw_axes();
+
+	glutSwapBuffers();
 }
 static void on_timer(int value)
 {
