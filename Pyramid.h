@@ -2,7 +2,6 @@
 #include <math.h>
 #include "RotationConfiguration.h"
 #include<vector>
-#include<iostream>
 #pragma once
 
 using namespace std;
