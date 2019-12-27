@@ -1,14 +1,9 @@
 #include "Pyramid.h"
 
-
 Pyramid::Pyramid()
 {
-	PointDownLeft = Point();
-	PointDownRight = Point();
-	PointDownMiddle = Point();
-	PointUp = Point();
-
 }
+
 /*Kreiranje pirammide uz pomoc donje leve tacke*/
 Pyramid::Pyramid(Point PointDownLeft1)
 {
@@ -26,22 +21,31 @@ Pyramid::Pyramid(Point PointDownLeft1, Point PointDownRight1, Point PointDownMid
 	PointUp = Point(PointUp1);
 }
 
-void Pyramid::Draw()
+Point Pyramid::GetCenter()
 {
-
-	Triangle(PointDownLeft, PointDownRight, PointDownMiddle, Red).Draw();
-	Triangle(PointDownLeft, PointDownMiddle, PointUp, Blue).Draw();
-	Triangle(PointDownLeft, PointDownRight, PointUp, Green).Draw();
-	Triangle(PointUp, PointDownRight, PointDownMiddle, Yellow).Draw();
-
+	return Point();
 }
+
 void Pyramid::AddRotation(RotationConfiguration rotation)
 {
 	rotations.push_back(rotation);
 }
 
-
-Point Pyramid::GetCenter()
+void Pyramid::Draw()
 {
-	return Point();
+		glPushMatrix();
+		for(auto it = rotations.rbegin(); it != rotations.rend(); ++it){
+			glTranslatef((*it).Center.x, (*it).Center.y, (*it).Center.z);
+			glRotatef((*it).Angle, (*it).VectorOfRotation.x, (*it).VectorOfRotation.y, (*it).VectorOfRotation.z);
+			glTranslatef(-(*it).Center.x, -(*it).Center.y, -(*it).Center.z);
+		}
+
+		Triangle(PointDownLeft, PointDownRight, PointDownMiddle, Red).Draw();
+		Triangle(PointDownLeft, PointDownMiddle, PointUp, Blue).Draw();
+		Triangle(PointDownLeft, PointDownRight, PointUp, Green).Draw();
+		Triangle(PointUp, PointDownRight, PointDownMiddle, Yellow).Draw();
+
+
+		glPopMatrix();
+
 }

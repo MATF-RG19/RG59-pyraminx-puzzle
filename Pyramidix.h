@@ -42,5 +42,4 @@ public:
 
 
 	void Draw(void);
-	void Init();
 };

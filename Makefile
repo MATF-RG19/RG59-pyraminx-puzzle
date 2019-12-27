@@ -1,5 +1,5 @@
-CXX=g++
-CFLAGS=-c
+CXX=g++ -std=c++14
+CFLAGS=-c -Wall
 LDLIBS=-lglut -lGL -lGLU
 
 PROGRAM=Pyraminx

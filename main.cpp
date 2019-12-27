@@ -1,10 +1,4 @@
-#include <stdlib.h>
-#include <GL/glut.h>
-#include <math.h>
-#include "Pyramid.h"
 #include "Pyramidix.h"
-
-#include <iostream>
 #define TIMER_INTERVAL 10
 #define TIMER_ID 0
 
@@ -73,7 +67,7 @@ static void on_reshape(int width, int height)
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
   gluPerspective(
-		60,
+		30,
 		window_width / (float)window_height,
 		1, 20);
 }
@@ -193,68 +187,69 @@ static void on_display(void)
 static void on_keyboard(unsigned char key, int x, int y)
 {
   switch (key) {
-  	case 27:
-  		/* Zavrsava se program. */
-  		exit(0);
-  		break;
-  	case 'd':
-  		PX.RotationOnY += 10;
-  		break;
-  	case 'a':
-  		PX.RotationOnY -= 10;
-  		break;
-  	case 's':
-  		PX.RotationOnX -= 10;
-  		break;
-  	case 'q':
-  		PX.RotateTopBig(60);
-  		break;
-  	case 'Q':
-  		PX.RotateTopBig(-60);
-  		break;
-  	case 'w':
-  		PX.RotateBottomLeftBig(60);
-  		break;
-  	case 'W':
-  		PX.RotateBottomLeftBig(-60);
-  		break;
-  	case 'e':
-  		PX.RotateBottomRightBig(60);
-  		break;
-  	case 'E':
-  		PX.RotateBottomRightBig(-60);
-  		break;
-  	case 'r':
-  		PX.RotateBottomBehindBig(60);
-  		break;
-  	case 'R':
-  		PX.RotateBottomBehindBig(-60);
-  		break;
-  	case '1':
-  		PX.RotateTop(60);
-  		break;
-  	case '!':
-  		PX.RotateTop(-60);
-  		break;
-  	case '2':
-  		PX.RotateBottomLeft(60);
-  		break;
-  	case '@':
-  		PX.RotateBottomLeft(60);
-  		break;
-  	case '3':
-  		PX.RotateBottomRight(60);
-  		break;
-  	case '#':
-  		PX.RotateBottomRight(60);
-  		break;
-  	case '4':
-  		PX.RotateBottomBehind(60);
-  		break;
-  	case '$':
-  		PX.RotateBottomBehind(60);
-  		break;
-    }
+	case 27:
+		/* Zavrsava se program. */
+		exit(0);
+		break;
+	case 'd':
+		PX.RotationOnY += 10;
+		break;
+	case 'a':
+		PX.RotationOnY -= 10;
+		break;
+	case 's':
+		PX.RotationOnX -= 10;
+		break;
+	case 'q':
+		PX.RotateTopBig(120);
+		break;
+	case 'Q':
+		PX.RotateTopBig(-120);
+		break;
+	case 'w':
+		PX.RotateBottomLeftBig(120);
+		break;
+	case 'W':
+		PX.RotateBottomLeftBig(-120);
+		break;
+	case 'e':
+		PX.RotateBottomRightBig(120);
+		break;
+	case 'E':
+		PX.RotateBottomRightBig(-120);
+		break;
+	case 'r':
+		PX.RotateBottomBehindBig(120);
+		break;
+	case 'R':
+		PX.RotateBottomBehindBig(-120);
+		break;
+	case '1':
+		PX.RotateTop(60);
+		break;
+	case '!':
+		PX.RotateTop(-60);
+		break;
+	case '2':
+		PX.RotateBottomLeft(60);
+		break;
+	case '@':
+		PX.RotateBottomLeft(60);
+		break;
+	case '3':
+		PX.RotateBottomRight(60);
+		break;
+	case '#':
+		PX.RotateBottomRight(60);
+		break;
+	case '4':
+		PX.RotateBottomBehind(60);
+		break;
+	case '$':
+		PX.RotateBottomBehind(60);
+		break;
+
+	}
 }
 
 void draw_axes(){

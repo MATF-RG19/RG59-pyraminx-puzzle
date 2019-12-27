@@ -1,6 +1,5 @@
 #include "Pyramidix.h"
-#include<math.h>
-#include <stdlib.h>
+
 
 using namespace std;
 Pyramidix::Pyramidix()
@@ -14,7 +13,6 @@ Pyramidix::Pyramidix()
 	aFLR = 0;
 	aLRB = 0;
 	aFRB = 0;
-
 
 	RotationOnX = 0;
 	RotationOnY = 0;
@@ -44,34 +42,6 @@ Pyramidix::Pyramidix()
 	vFLR = Point(0.0f, 1.0f, 0.0f);
 	vLRB = Point(0.0f, -sqrt(6) / 12, sqrt(3) / 3);
 
-
-
-
-
-	RotationConfiguration testLRB = RotationConfiguration();
-	int angle = 120;
-	testLRB.Angle = angle;
-	testLRB.Center = cLRB;
-	testLRB.VectorOfRotation = vLRB;
-
-
-	RotationConfiguration testFLB = RotationConfiguration();
-	int angle2 = 120;
-	testFLB.Angle = angle2;
-	testFLB.Center = cFLB;
-	testFLB.VectorOfRotation = vFLB;
-
-
-	RotationConfiguration testFLR = RotationConfiguration();
-	testFLR.Angle = angle2;
-	testFLR.Center = cFLR;
-	testFLR.VectorOfRotation = vFLR;
-
-	RotationConfiguration testFRB = RotationConfiguration();
-	testFRB.Angle = angle2;
-	testFRB.Center = cFRB;
-	testFRB.VectorOfRotation = vFRB;
-
 	tFLB = Triangle(p3FLB.PointDownRight, p3FLB.PointUp, p2FB.PointUp, Green);
 	tFRB = Triangle(p2FB.PointDownRight, p2FB.PointUp, p3FRB.PointUp, Green);
 	tFLR = Triangle(p2FL.PointDownRight, p2FL.PointUp, p2FR.PointUp, Green);
@@ -84,12 +54,9 @@ Pyramidix::Pyramidix()
 	tRLB = Triangle(p2RB.PointDownMiddle, p2RB.PointUp, p3LRB.PointUp, Yellow);
 	tRFL = Triangle(p2FR.PointDownMiddle, p2FR.PointUp, p2LR.PointUp, Yellow);
 
-
-
 	tBFL = Triangle(p3FLB.PointDownRight, p3FLB.PointDownMiddle, p2FB.PointDownMiddle, Red);
 	tBFR = Triangle(p2FB.PointDownRight, p2FB.PointDownMiddle, p3FRB.PointDownMiddle, Red);
 	tBLR = Triangle(p2LB.PointDownRight, p2LB.PointDownMiddle, p2RB.PointDownMiddle, Red);
-
 
 	pp2FB = &p2FB;
 	pp2FR = &p2FR;
@@ -131,6 +98,19 @@ void Pyramidix::RotateTopBig(int angle)
 	pp2FL->AddRotation(testFLR);
 	pp2LR->AddRotation(testFLR);
 
+	if (angle < 0) {
+		Pyramid *test = pp2FR;
+		pp2FR = pp2FL;
+		pp2FL = pp2LR;
+		pp2LR = test;
+	}
+	else {
+		Pyramid *test = pp2FR;
+		pp2FR = pp2LR;
+		pp2LR = pp2FL;
+		pp2FL = test;
+
+	}
 
 
 }
@@ -156,6 +136,31 @@ void Pyramidix::RotateBottomLeftBig(int angle)
 		temp = abs(aFLB) % 360;
 	if (aFLB < 0)
 		temp = -temp;
+
+	RotationConfiguration testFLB = RotationConfiguration();
+	testFLB.Angle = angle;
+	testFLB.Center = cFLB;
+	testFLB.VectorOfRotation = vFLB;
+
+	pp2FL->AddRotation(testFLB);
+	pp2FB->AddRotation(testFLB);
+	pp2LB->AddRotation(testFLB);
+
+
+
+	if (angle < 0) {
+		Pyramid *test = pp2FL;
+		pp2FL = pp2LB;
+		pp2LB = pp2FB;
+		pp2FB = test;
+	}
+	else {
+		Pyramid *test = pp2FL;
+		pp2FL = pp2FB;
+		pp2FB = pp2LB;
+		pp2LB = test;
+
+	}
 }
 
 void Pyramidix::RotateBottomRight(int angle)
@@ -179,6 +184,29 @@ void Pyramidix::RotateBottomRightBig(int angle)
 		temp = abs(aFRB) % 360;
 	if (aFRB < 0)
 		temp = -temp;
+
+	RotationConfiguration testFRB = RotationConfiguration();
+	testFRB.Angle = angle;
+	testFRB.Center = cFRB;
+	testFRB.VectorOfRotation = vFRB;
+
+	pp2FR->AddRotation(testFRB);
+	pp2FB->AddRotation(testFRB);
+	pp2RB->AddRotation(testFRB);
+
+	if (angle < 0) {
+		Pyramid* test = pp2FR;
+		pp2FR = pp2FB;
+		pp2FB = pp2RB;
+		pp2RB = test;
+		}
+	else {
+		Pyramid* test = pp2FR;
+		pp2FR = pp2RB;
+		pp2RB = pp2FB;
+		pp2FB = test;
+
+	}
 }
 
 void Pyramidix::RotateBottomBehind(int angle)
@@ -202,6 +230,28 @@ void Pyramidix::RotateBottomBehindBig(int angle)
 		temp = abs(aLRB) % 360;
 	if (aLRB < 0)
 		temp = -temp;
+
+	RotationConfiguration testLRB = RotationConfiguration();
+	testLRB.Angle = angle;
+	testLRB.Center = cLRB;
+	testLRB.VectorOfRotation = vLRB;
+
+	pp2LR->AddRotation(testLRB);
+	pp2RB->AddRotation(testLRB);
+	pp2LB->AddRotation(testLRB);
+
+	if (angle < 0) {
+		Pyramid* test = pp2LR;
+		pp2LR = pp2LB;
+		pp2LB = pp2RB;
+		pp2RB = test;
+	}
+	else {
+		Pyramid* test = pp2LR;
+		pp2LR = pp2RB;
+		pp2RB = pp2LB;
+		pp2LB = test;
+	}
 }
 
 
@@ -249,14 +299,13 @@ void Pyramidix::Draw()
 
 
 
+	pp2LR->Draw();
+	pp2FL->Draw();
+	pp2FR->Draw();
+	pp2FB->Draw();
 
-	p2LR.Draw();
-	p2FL.Draw();
-	p2FR.Draw();
-	p2FB.Draw();
-
-	p2LB.Draw();
-	p2RB.Draw();
+	pp2LB->Draw();
+	pp2RB->Draw();
 
 
 
@@ -304,8 +353,4 @@ void Pyramidix::Draw()
 	glPopMatrix();
 
 
-}
-
-void Pyramidix::Init()
-{
 }

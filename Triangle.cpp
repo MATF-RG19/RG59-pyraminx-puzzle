@@ -1,12 +1,9 @@
 #include "Triangle.h"
-#include <GL/glut.h>
+
 
 
 Triangle::Triangle()
 {
-	p1 = Point();
-	p2 = Point();
-	p3 = Point();
 	color = Red;
 }
 
@@ -33,13 +30,13 @@ void Triangle::Draw()
 	glLineWidth(2);
 	SetColor(Black);
 	glBegin(GL_LINES);
-    glVertex3f(p1.x, p1.y, p1.z);
-	  glVertex3f(p2.x, p2.y, p2.z);
+		glVertex3f(p1.x, p1.y, p1.z);
+		glVertex3f(p2.x, p2.y, p2.z);
 
-    glVertex3f(p1.x, p1.y, p1.z);
-	  glVertex3f(p3.x, p3.y, p3.z);
+		glVertex3f(p1.x, p1.y, p1.z);
+		glVertex3f(p3.x, p3.y, p3.z);
 
-	  glVertex3f(p3.x, p3.y, p3.z);
-	  glVertex3f(p2.x, p2.y, p2.z);
+		glVertex3f(p3.x, p3.y, p3.z);
+		glVertex3f(p2.x, p2.y, p2.z);
 	glEnd();
 }
