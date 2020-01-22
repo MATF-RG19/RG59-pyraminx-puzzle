@@ -1,14 +1,22 @@
 #include "Pyramidix.h"
 
-#define TIMER_INTERVAL 10
+#define TIMER_INTERVAL 50
 #define TIMER_ID 0
 
 
 static int window_width, window_height;
 static int animation_ongoing;
 
-int fi=0;
-int flag;
+//oznaka pravca rotacije, l za levo, r - za desno
+char directionFlag = 'l';
+//Simbol rotacije koji obelezava koja strana se rotira, t -top, l - left, r - right, b-behind
+char rotationFlag = 't';
+//Flag male ili velike rotacije s - mala, l - velika
+char sizeFlag = 's';
+
+
+int curentTick = 0;
+int MaxTick = 9;
 
 Pyramidix PX;
 
@@ -17,6 +25,8 @@ static void on_keyboard(unsigned char key, int x, int y);
 static void on_reshape(int width, int height);
 static void on_display(void);
 static void on_timer(int);
+static void rotate(int degree);
+
 
 using namespace std;
 
@@ -84,52 +94,148 @@ static void on_keyboard(unsigned char key, int x, int y)
 		PX.RotationOnX -= 10;
 		break;
 	case 'q':
-		PX.RotateTopBig(120);
+    if (!animation_ongoing) {
+      directionFlag = 'r';
+			sizeFlag = 'l';
+			rotationFlag ='t';
+      animation_ongoing = 1;
+			glutTimerFunc(TIMER_INTERVAL, on_timer, TIMER_ID);
+    }
 		break;
 	case 'Q':
-		PX.RotateTopBig(-120);
+    if (!animation_ongoing) {
+      directionFlag = 'l';
+      sizeFlag = 'l';
+      rotationFlag = 't';
+      animation_ongoing = 1;
+      glutTimerFunc(TIMER_INTERVAL, on_timer, TIMER_ID);
+    }
 		break;
 	case 'w':
-		PX.RotateBottomLeftBig(120);
+    if (!animation_ongoing) {
+      directionFlag = 'r';
+      sizeFlag = 'l';
+      rotationFlag = 'l';
+      animation_ongoing = 1;
+      glutTimerFunc(TIMER_INTERVAL, on_timer, TIMER_ID);
+    }
 		break;
 	case 'W':
-		PX.RotateBottomLeftBig(-120);
+    if (!animation_ongoing) {
+      directionFlag = 'l';
+      sizeFlag = 'l';
+      rotationFlag = 'l';
+      animation_ongoing = 1;
+      glutTimerFunc(TIMER_INTERVAL, on_timer, TIMER_ID);
+    }
 		break;
 	case 'e':
-		PX.RotateBottomRightBig(120);
+    if (!animation_ongoing) {
+      directionFlag = 'r';
+      sizeFlag = 'l';
+      rotationFlag = 'r';
+      animation_ongoing = 1;
+      glutTimerFunc(TIMER_INTERVAL, on_timer, TIMER_ID);
+    }
 		break;
 	case 'E':
-		PX.RotateBottomRightBig(-120);
+    if (!animation_ongoing) {
+      directionFlag = 'l';
+      sizeFlag = 'l';
+      rotationFlag = 'r';
+      animation_ongoing = 1;
+      glutTimerFunc(TIMER_INTERVAL, on_timer, TIMER_ID);
+    }
 		break;
 	case 'r':
-		PX.RotateBottomBehindBig(120);
+    if (!animation_ongoing) {
+      directionFlag = 'r';
+      sizeFlag = 'l';
+      rotationFlag = 'b';
+      animation_ongoing = 1;
+      glutTimerFunc(TIMER_INTERVAL, on_timer, TIMER_ID);
+    }
 		break;
 	case 'R':
-		PX.RotateBottomBehindBig(-120);
+    if (!animation_ongoing) {
+      directionFlag = 'l';
+      sizeFlag = 'l';
+      rotationFlag = 'b';
+      animation_ongoing = 1;
+      glutTimerFunc(TIMER_INTERVAL, on_timer, TIMER_ID);
+    }
 		break;
 	case '1':
-		PX.RotateTop(60);
+    if (!animation_ongoing) {
+      directionFlag = 'r';
+      sizeFlag = 's';
+      rotationFlag = 't';
+      animation_ongoing = 1;
+      glutTimerFunc(TIMER_INTERVAL, on_timer, TIMER_ID);
+    }
 		break;
 	case '!':
-		PX.RotateTop(-60);
+    if (!animation_ongoing) {
+      directionFlag = 'l';
+      sizeFlag = 's';
+      rotationFlag = 't';
+      animation_ongoing = 1;
+      glutTimerFunc(TIMER_INTERVAL, on_timer, TIMER_ID);
+    }
 		break;
 	case '2':
-		PX.RotateBottomLeft(60);
+    if (!animation_ongoing) {
+      directionFlag = 'r';
+      sizeFlag = 's';
+      rotationFlag = 'l';
+      animation_ongoing = 1;
+      glutTimerFunc(TIMER_INTERVAL, on_timer, TIMER_ID);
+    }
 		break;
 	case '@':
-		PX.RotateBottomLeft(60);
+    if (!animation_ongoing) {
+      directionFlag = 'l';
+      sizeFlag = 's';
+      rotationFlag = 'l';
+      animation_ongoing = 1;
+      glutTimerFunc(TIMER_INTERVAL, on_timer, TIMER_ID);
+    }
 		break;
 	case '3':
-		PX.RotateBottomRight(60);
+    if (!animation_ongoing) {
+      directionFlag = 'r';
+      sizeFlag = 's';
+      rotationFlag = 'r';
+      animation_ongoing = 1;
+      glutTimerFunc(TIMER_INTERVAL, on_timer, TIMER_ID);
+    }
 		break;
 	case '#':
-		PX.RotateBottomRight(60);
+    if (!animation_ongoing) {
+      directionFlag = 'l';
+      sizeFlag = 's';
+      rotationFlag = 'r';
+      animation_ongoing = 1;
+      glutTimerFunc(TIMER_INTERVAL, on_timer, TIMER_ID);
+    }
 		break;
 	case '4':
-		PX.RotateBottomBehind(60);
+    if (!animation_ongoing) {
+      directionFlag = 'r';
+      sizeFlag = 's';
+      rotationFlag = 'b';
+      animation_ongoing = 1;
+      glutTimerFunc(TIMER_INTERVAL, on_timer, TIMER_ID);
+    }
 		break;
 	case '$':
-		PX.RotateBottomBehind(60);
+    if (!animation_ongoing) {
+      directionFlag = 'l';
+      sizeFlag = 's';
+      rotationFlag = 'b';
+      animation_ongoing = 1;
+      glutTimerFunc(TIMER_INTERVAL, on_timer, TIMER_ID);
+    }
 		break;
 
 	}
@@ -154,26 +260,66 @@ static void on_display(void)
 	glutSwapBuffers();
 }
 
-/*Trenutno se ne koristi*/
+
+static void rotate(int degree)
+{
+	if (sizeFlag == 's')
+	{
+		switch (rotationFlag)
+		{
+			case 't' : PX.RotateTop(degree);
+				break;
+			case 'l': PX.RotateBottomLeft(degree);
+				break;
+			case 'r': PX.RotateBottomRight(degree);
+				break;
+			case 'b': PX.RotateBottomBehind(degree);
+				break;
+		}
+	}
+	else
+	{
+		switch (rotationFlag)
+		{
+		case 't': PX.RotateTopBig(degree);
+			break;
+		case 'l': PX.RotateBottomLeftBig(degree);
+			break;
+		case 'r': PX.RotateBottomRightBig(degree);
+			break;
+		case 'b': PX.RotateBottomBehindBig(degree);
+			break;
+		}
+	}
+}
+
+
+
+
+
 static void on_timer(int value)
 {
+  if (value != TIMER_ID)
+    return;
 
-    if (value != TIMER_ID)
-      return;
-    if(flag==1)
-      fi+=10;
-    else
-      fi-=10;
+  if (directionFlag == 'l')
+		rotate(12);
+  else
+    rotate(-12);
 
-    if(abs(fi)%90==0){
-      animation_ongoing=0;
-      return;
-    }
-    /* Forsira se ponovno iscrtavanje prozora. */
-    glutPostRedisplay();
+  curentTick++;
+  if (curentTick > MaxTick) {
+    animation_ongoing = 0;
+    curentTick = 0;
+    return;
+  }
 
-    /* Po potrebi se ponovo postavlja tajmer. */
-    if (animation_ongoing) {
-        glutTimerFunc(TIMER_INTERVAL, on_timer, TIMER_ID);
-    }
+
+  /* Forsira se ponovno iscrtavanje prozora. */
+  glutPostRedisplay();
+
+  /* Po potrebi se ponovo postavlja tajmer. */
+  if (animation_ongoing) {
+    glutTimerFunc(TIMER_INTERVAL, on_timer, TIMER_ID);
+  }
 }
