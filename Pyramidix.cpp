@@ -43,20 +43,32 @@ Pyramidix::Pyramidix()
 	vLRB = Point(0.0f, -sqrt(6) / 12, sqrt(3) / 3);
 
 	tFLB = Triangle(p3FLB.PointDownRight, p3FLB.PointUp, p2FB.PointUp, Green);
+	tFLB.reverseNormal=true;
 	tFRB = Triangle(p2FB.PointDownRight, p2FB.PointUp, p3FRB.PointUp, Green);
+	tFRB.reverseNormal=true;
 	tFLR = Triangle(p2FL.PointDownRight, p2FL.PointUp, p2FR.PointUp, Green);
+	tFLR.reverseNormal=true;
 
 	tLFB = Triangle(p3FLB.PointDownMiddle, p3FLB.PointUp, p2LB.PointUp, Blue);
+	tLFB.reverseNormal=true;
 	tLRB = Triangle(p2LB.PointDownMiddle, p2LB.PointUp, p3LRB.PointUp, Blue);
+	tLRB.reverseNormal=true;
 	tLFR = Triangle(p2FL.PointDownMiddle, p2FL.PointUp, p2LR.PointUp, Blue);
+	tLFR.reverseNormal=true;
 
 	tRFB = Triangle(p3FRB.PointDownMiddle, p3FRB.PointUp, p2RB.PointUp, Yellow);
+	tRFB.reverseNormal=true;
 	tRLB = Triangle(p2RB.PointDownMiddle, p2RB.PointUp, p3LRB.PointUp, Yellow);
+	tRLB.reverseNormal=true;
 	tRFL = Triangle(p2FR.PointDownMiddle, p2FR.PointUp, p2LR.PointUp, Yellow);
+	tRFL.reverseNormal=true;
 
 	tBFL = Triangle(p3FLB.PointDownRight, p3FLB.PointDownMiddle, p2FB.PointDownMiddle, Red);
+	tBFL.reverseNormal=true;
 	tBFR = Triangle(p2FB.PointDownRight, p2FB.PointDownMiddle, p3FRB.PointDownMiddle, Red);
+	tBFR.reverseNormal=true;
 	tBLR = Triangle(p2LB.PointDownRight, p2LB.PointDownMiddle, p2RB.PointDownMiddle, Red);
+	tBLR.reverseNormal=true;
 
 	pp2FB = &p2FB;
 	pp2FR = &p2FR;
@@ -66,29 +78,20 @@ Pyramidix::Pyramidix()
 	pp2RB = &p2RB;
 
 }
-
+//Rotiranje male piramide
 void Pyramidix::RotateTop(int angle)
 {
+	//dodavanje ugla rotacije male piramide koje ce se kasniti iskoristiti pri crtanju
 	saFLR += angle;
-	int temp = saFLR;
 
-	if (abs(saFLR) >= 360)
-		temp = abs(saFLR) % 360;
-	if (saFLR<0)
-		temp = -temp;
 }
-
+//Rotiranje gornje velike piramide
 void Pyramidix::RotateTopBig(int angle)
 {
 	RotateTop(angle);
 	aFLR += angle;
-	int temp = aFLR;
 
-	if (abs(aFLR) >= 360)
-		temp = abs(aFLR) % 360;
-	if (aFLR < 0)
-		temp = -temp;
-
+	//dodavanje
 	RotationConfiguration testFLR = RotationConfiguration();
 	testFLR.Angle = angle;
 	testFLR.Center = cFLR;

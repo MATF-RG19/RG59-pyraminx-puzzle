@@ -7,6 +7,13 @@
 static int window_width, window_height;
 static int animation_ongoing;
 
+//mis
+static int mouse_x, mouse_y;
+static void on_mouse(int button, int state, int x, int y);
+static void on_motion(int x, int y);
+//matrica rotacije koja se azurira na pomeraj misa
+static float matrix[16];
+
 //oznaka pravca rotacije, l za levo, r - za desno
 char directionFlag = 'l';
 //Simbol rotacije koji obelezava koja strana se rotira, t -top, l - left, r - right, b-behind
@@ -52,8 +59,21 @@ int main(int argc,char** argv){
   glutDisplayFunc(on_display);
   glutIdleFunc(on_display);
 
+  //osvetljenje
+  glEnable(GL_COLOR_MATERIAL);
+
+
+  // mis
+  /*glutMouseFunc(on_mouse);
+  glutMotionFunc(on_motion);
+  mouse_x = 0;
+  mouse_y = 0;*/
+
   glClearColor(0.75, 0.75, 0.75, 0);
   glEnable(GL_DEPTH_TEST);
+  glEnable(GL_NORMALIZE);
+
+
   glutMainLoop();
 
   return 0;
@@ -244,6 +264,16 @@ static void on_keyboard(unsigned char key, int x, int y)
 
 static void on_display(void)
 {
+
+  /*osvetljenje*/
+  GLfloat light_ambient[] = { 0.0, 0.0, 0.0, 1 };
+  GLfloat light_diffuse[] = { 1, 1, 1, 1 };
+  GLfloat light_specular[] = { 0.9, 0.9, 0.9, 1 };
+  GLfloat ambient_coeffs[] = { 1.0, 0.1, 0.1, 1 };
+  GLfloat diffuse_coeffs[] = { 0.7, 0.7, 0.7, 1 };
+  GLfloat specular_coeffs[] = { 1, 1, 1, 1 };
+
+
 	/* Brise se prethodni sadrzaj prozora. */
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -254,6 +284,15 @@ static void on_display(void)
 		0, 0, 0,
 		0, 1, 0
 	);
+
+
+  //osvetljenje
+  GLfloat shininess = 20;
+  glEnable(GL_LIGHTING);
+  glEnable(GL_LIGHT0);
+  glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
+  glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
+  glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
 
 	PX.Draw();
 
@@ -323,3 +362,29 @@ static void on_timer(int value)
     glutTimerFunc(TIMER_INTERVAL, on_timer, TIMER_ID);
   }
 }
+//MIS
+/*static void on_mouse(int button, int state, int x, int y){
+    mouse_x = x;
+    mouse_y = y;
+}
+static void on_motion(int x, int y)
+{
+    int delta_x, delta_y;
+
+    delta_x = x - mouse_x;
+    delta_y = y - mouse_y;
+
+    mouse_x = x;
+    mouse_y = y;
+
+    glMatrixMode(GL_MODELVIEW);
+    glPushMatrix();
+        glLoadIdentity();
+        glRotatef(180 * (float) delta_x / window_width, 0, 1, 0);
+        glRotatef(180 * (float) delta_y / window_height, 1, 0, 0);
+        glMultMatrixf(matrix);
+        glGetFloatv(GL_MODELVIEW_MATRIX, matrix);
+    glPopMatrix();
+
+    glutPostRedisplay();
+}*/
