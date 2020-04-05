@@ -42,8 +42,15 @@ void Pyramid::Draw()
 
 		Triangle(PointDownLeft, PointDownRight, PointDownMiddle, Red).Draw();
 		Triangle(PointDownLeft, PointDownMiddle, PointUp, Blue).Draw();
-		Triangle(PointDownLeft, PointDownRight, PointUp, Green).Draw();
-		Triangle(PointUp, PointDownRight, PointDownMiddle, Yellow).Draw();
+		/*Zbog osvetljanja zelena ima suprotnu normalu*/
+		Triangle gT = Triangle(PointDownLeft, PointDownRight, PointUp, Green);
+		gT.reverseNormal = true;
+		gT.Draw();
+		/*Zbog osvetljanja zuta ima suprotnu normalu*/
+		Triangle yT = Triangle(PointUp, PointDownRight, PointDownMiddle, Yellow);
+		yT.reverseNormal = true;
+		yT.Draw();
+
 
 
 		glPopMatrix();

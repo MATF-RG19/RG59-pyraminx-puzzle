@@ -43,12 +43,10 @@ Pyramidix::Pyramidix()
 	vLRB = Point(0.0f, -sqrt(6) / 12, sqrt(3) / 3);
 
 	tFLB = Triangle(p3FLB.PointDownRight, p3FLB.PointUp, p2FB.PointUp, Green);
-	tFLB.reverseNormal=true;
 	tFRB = Triangle(p2FB.PointDownRight, p2FB.PointUp, p3FRB.PointUp, Green);
-	tFRB.reverseNormal=true;
 	tFLR = Triangle(p2FL.PointDownRight, p2FL.PointUp, p2FR.PointUp, Green);
-	tFLR.reverseNormal=true;
 
+	/*Zbog osvetljenja plavi trouglovi imaju suprotnu normalu*/
 	tLFB = Triangle(p3FLB.PointDownMiddle, p3FLB.PointUp, p2LB.PointUp, Blue);
 	tLFB.reverseNormal=true;
 	tLRB = Triangle(p2LB.PointDownMiddle, p2LB.PointUp, p3LRB.PointUp, Blue);
@@ -57,12 +55,10 @@ Pyramidix::Pyramidix()
 	tLFR.reverseNormal=true;
 
 	tRFB = Triangle(p3FRB.PointDownMiddle, p3FRB.PointUp, p2RB.PointUp, Yellow);
-	tRFB.reverseNormal=true;
 	tRLB = Triangle(p2RB.PointDownMiddle, p2RB.PointUp, p3LRB.PointUp, Yellow);
-	tRLB.reverseNormal=true;
 	tRFL = Triangle(p2FR.PointDownMiddle, p2FR.PointUp, p2LR.PointUp, Yellow);
-	tRFL.reverseNormal=true;
 
+	/*Zbog osvetljenja crveni trouglovi imaju suprotnu normalu*/
 	tBFL = Triangle(p3FLB.PointDownRight, p3FLB.PointDownMiddle, p2FB.PointDownMiddle, Red);
 	tBFL.reverseNormal=true;
 	tBFR = Triangle(p2FB.PointDownRight, p2FB.PointDownMiddle, p3FRB.PointDownMiddle, Red);
