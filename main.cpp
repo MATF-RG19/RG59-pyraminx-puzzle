@@ -7,11 +7,11 @@
 static int window_width, window_height;
 static int animation_ongoing;
 
-//mis
+/*mis*/
 static int mouse_x, mouse_y;
 static void on_mouse(int button, int state, int x, int y);
 static void on_motion(int x, int y);
-//matrica rotacije koja se azurira na pomeraj misa
+/*matrica rotacije koja se azurira na pomeraj misa*/
 static float matrix[16];
 
 //oznaka pravca rotacije, l za levo, r - za desno
@@ -61,16 +61,21 @@ int main(int argc,char** argv){
 
 
 
-  // mis
-  /*glutMouseFunc(on_mouse);
+  /*Pozivanje funkcija za mis*/
+  glutMouseFunc(on_mouse);
   glutMotionFunc(on_motion);
   mouse_x = 0;
-  mouse_y = 0;*/
+  mouse_y = 0;
 
 
   glClearColor(0.75, 0.75, 0.75, 0);
   glEnable(GL_DEPTH_TEST);
   glEnable(GL_NORMALIZE);
+
+  /*Mis*/
+  glMatrixMode(GL_MODELVIEW);
+  glLoadIdentity();
+  glGetFloatv(GL_MODELVIEW_MATRIX, matrix);
 
   glutMainLoop();
 
@@ -287,6 +292,9 @@ static void on_display(void)
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
 	glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
 
+  /*Matrica za mis*/
+  glMultMatrixf(matrix);
+
 
 	PX.Draw();
 
@@ -356,8 +364,8 @@ static void on_timer(int value)
     glutTimerFunc(TIMER_INTERVAL, on_timer, TIMER_ID);
   }
 }
-//MIS
-/*static void on_mouse(int button, int state, int x, int y){
+/*Mis*/
+static void on_mouse(int button, int state, int x, int y){
     mouse_x = x;
     mouse_y = y;
 }
@@ -381,4 +389,4 @@ static void on_motion(int x, int y)
     glPopMatrix();
 
     glutPostRedisplay();
-}*/
+}
