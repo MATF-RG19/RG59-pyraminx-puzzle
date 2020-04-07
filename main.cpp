@@ -59,8 +59,6 @@ int main(int argc,char** argv){
   glutDisplayFunc(on_display);
   glutIdleFunc(on_display);
 
-  //osvetljenje
-  glEnable(GL_COLOR_MATERIAL);
 
 
   // mis
@@ -69,10 +67,10 @@ int main(int argc,char** argv){
   mouse_x = 0;
   mouse_y = 0;*/
 
+
   glClearColor(0.75, 0.75, 0.75, 0);
   glEnable(GL_DEPTH_TEST);
   glEnable(GL_NORMALIZE);
-
 
   glutMainLoop();
 
@@ -265,15 +263,6 @@ static void on_keyboard(unsigned char key, int x, int y)
 static void on_display(void)
 {
 
-  /*osvetljenje*/
-  GLfloat light_ambient[] = { 0.0, 0.0, 0.0, 1 };
-  GLfloat light_diffuse[] = { 1, 1, 1, 1 };
-  GLfloat light_specular[] = { 0.9, 0.9, 0.9, 1 };
-  GLfloat ambient_coeffs[] = { 1.0, 0.1, 0.1, 1 };
-  GLfloat diffuse_coeffs[] = { 0.7, 0.7, 0.7, 1 };
-  GLfloat specular_coeffs[] = { 1, 1, 1, 1 };
-
-
 	/* Brise se prethodni sadrzaj prozora. */
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -285,14 +274,19 @@ static void on_display(void)
 		0, 1, 0
 	);
 
+  /*Postavljanje osvetljenja*/
+	GLfloat light_ambient[] = { 0.0, 0.0, 0.0, 1 };
+	GLfloat light_diffuse[] = { 1, 1, 1, 1 };
+	GLfloat light_specular[] = { 0.9, 0.9, 0.9, 1 };
 
-  //osvetljenje
-  GLfloat shininess = 20;
-  glEnable(GL_LIGHTING);
-  glEnable(GL_LIGHT0);
-  glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
-  glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
-  glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
+
+  /*Ukljucivanje osvetljenja*/
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
+	glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
+	glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
+
 
 	PX.Draw();
 
