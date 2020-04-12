@@ -1,7 +1,16 @@
 #include "Pyramidix.h"
-
+#include "image.h"
 #define TIMER_INTERVAL 50
 #define TIMER_ID 0
+
+
+/* Ime fajla sa teksturom*/
+#define FILENAME0 "background.bmp"
+
+
+/* Identifikatori tekstura. */
+static GLuint texture[1];
+
 
 
 static int window_width, window_height;
@@ -72,6 +81,37 @@ int main(int argc,char** argv){
   glEnable(GL_DEPTH_TEST);
   glEnable(GL_NORMALIZE);
 
+  Image * image;
+
+
+  /* Ukljucuju se teksture. */
+  glEnable(GL_TEXTURE_2D);
+
+  glTexEnvf(GL_TEXTURE_ENV,GL_TEXTURE_ENV_MODE,GL_REPLACE);
+
+  /*Inicijalizuje se objekat*/
+  image = image_init(0, 0);
+
+  /* Kreira se tekstura. */
+  image_read(image, FILENAME0);
+
+  /* Generisu se identifikatori tekstura. */
+  glGenTextures(1, texture);
+
+  glBindTexture(GL_TEXTURE_2D, texture[0]);
+  glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,  GL_CLAMP);
+  glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,  GL_CLAMP);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,image->width, image->height, 0,GL_RGB, GL_UNSIGNED_BYTE,image->pixels);
+
+  /* Iskljucuje se tekstura */
+  glBindTexture(GL_TEXTURE_2D, 0);
+
+  /* Unistava se objekat*/
+  image_done(image);
+
+
   /*Mis*/
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
@@ -95,7 +135,7 @@ static void on_reshape(int width, int height)
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
   gluPerspective(
-		30,
+		45,
 		window_width / (float)window_height,
 		1, 20);
 }
@@ -108,7 +148,7 @@ static void on_keyboard(unsigned char key, int x, int y)
 		exit(0);
 		break;
 	case 'd':
-		PX.RotationOnY += 10;
+	  PX.RotationOnY += 10;
 		break;
 	case 'a':
 		PX.RotationOnY -= 10;
@@ -273,11 +313,12 @@ static void on_display(void)
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	gluLookAt(
+/*	gluLookAt(
 		6, 6, -6,
 		0, 0, 0,
 		0, 1, 0
-	);
+	);*/
+ gluLookAt(0, 0, 7, 0, 0, 0, 0, 1, 0);
 
   /*Postavljanje osvetljenja*/
 	GLfloat light_ambient[] = { 0.0, 0.0, 0.0, 1 };
@@ -292,9 +333,30 @@ static void on_display(void)
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
 	glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
 
+
+  /* Postavlja se pozadina*/
+  glBindTexture(GL_TEXTURE_2D, texture[0]);
+  glBegin(GL_QUADS);
+      glNormal3f(0, 0, 1);
+
+      glTexCoord2f(0, 0);
+      glVertex3f(-3.8, -3.8,- 2);
+
+      glTexCoord2f(1, 0);
+      glVertex3f(3.8, -3.8,- 2);
+
+      glTexCoord2f(1, 1);
+      glVertex3f(3.8, 3.8, -2);
+
+      glTexCoord2f(0, 1);
+      glVertex3f(-3.8, 3.8, -2);
+  glEnd();
+
+  /* Iskljucujemo teksturu */
+  glBindTexture(GL_TEXTURE_2D, 0);
+
   /*Matrica za mis*/
   glMultMatrixf(matrix);
-
 
 	PX.Draw();
 
@@ -333,10 +395,6 @@ static void rotate(int degree)
 		}
 	}
 }
-
-
-
-
 
 static void on_timer(int value)
 {

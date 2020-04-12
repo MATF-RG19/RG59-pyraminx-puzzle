@@ -3,7 +3,7 @@ CFLAGS=-c -Wall
 LDLIBS=-lglut -lGL -lGLU
 
 PROGRAM=Pyraminx
-OBJECTS=main.o Pyramid.o Color.o Triangle.o Point.o RotationConfiguration.o Pyramidix.o
+OBJECTS=main.o Pyramid.o Color.o Triangle.o Point.o RotationConfiguration.o Pyramidix.o image.o
 
 all: $(PROGRAM)
 
@@ -24,6 +24,8 @@ RotationConfiguration.o: RotationConfiguration.cpp
 	$(CXX) $(CFLAGS) $(LDLIBS) RotationConfiguration.cpp
 Pyramidix.o: Pyramidix.cpp
 		$(CXX) $(CFLAGS) $(LDLIBS) Pyramidix.cpp
+image.o: image.c
+		$(CXX) $(CFLAGS) $(LDLIBS) image.c
 clean:
 	rm -rf *o program
 
