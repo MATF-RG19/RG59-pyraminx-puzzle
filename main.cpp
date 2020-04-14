@@ -3,6 +3,8 @@
 #define TIMER_INTERVAL 50
 #define TIMER_ID 0
 
+#define START_TIMER_ID (1)
+#define START_TIMER_INT (60)
 
 /* Ime fajla sa teksturom*/
 #define FILENAME0 "background.bmp"
@@ -34,6 +36,12 @@ char sizeFlag = 's';
 int curentTick = 0;
 int MaxTick = 9;
 
+
+//promenljive za pocetnu animaciju
+double start_parameter=0;
+static int start_ongoing=1;
+
+
 Pyramidix PX;
 
 
@@ -42,7 +50,7 @@ static void on_reshape(int width, int height);
 static void on_display(void);
 static void on_timer(int);
 static void rotate(int degree);
-
+static void start_timer(int value);
 
 using namespace std;
 
@@ -116,6 +124,10 @@ int main(int argc,char** argv){
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
   glGetFloatv(GL_MODELVIEW_MATRIX, matrix);
+
+
+  if(start_ongoing)
+        glutTimerFunc(START_TIMER_INT, start_timer, START_TIMER_ID);
 
   glutMainLoop();
 
@@ -313,12 +325,7 @@ static void on_display(void)
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-/*	gluLookAt(
-		6, 6, -6,
-		0, 0, 0,
-		0, 1, 0
-	);*/
- gluLookAt(0, 0, 7, 0, 0, 0, 0, 1, 0);
+  gluLookAt(0, 0, 7, 0, 0, 0, 0, 1, 0);
 
   /*Postavljanje osvetljenja*/
 	GLfloat light_ambient[] = { 0.0, 0.0, 0.0, 1 };
@@ -355,10 +362,23 @@ static void on_display(void)
   /* Iskljucujemo teksturu */
   glBindTexture(GL_TEXTURE_2D, 0);
 
-  /*Matrica za mis*/
-  glMultMatrixf(matrix);
+
+
+  glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+  gluLookAt(0, 0, 12-start_parameter*5, 0, 0, 0, 0, 1, 0);
+
+
+  if(start_parameter>=1)
+    start_ongoing=0;
+
+
+ /*Matrica za mis*/
+ glMultMatrixf(matrix);
 
 	PX.Draw();
+  if(start_parameter >=0.4 && start_parameter<=1)
+    PX.RotationOnY+=1;
 
 	glutSwapBuffers();
 }
@@ -447,4 +467,20 @@ static void on_motion(int x, int y)
     glPopMatrix();
 
     glutPostRedisplay();
+}
+
+//tajmer za pocetnu animaciju
+static void start_timer(int value){
+
+    if(value!=START_TIMER_ID){
+        return;
+    }
+
+    start_parameter+=0.01;
+
+
+    glutPostRedisplay();
+    if(start_ongoing){
+        glutTimerFunc(START_TIMER_INT, start_timer, START_TIMER_ID);
+    }
 }
