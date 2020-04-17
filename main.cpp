@@ -45,7 +45,7 @@ double start_parameter=0;
 static int start_ongoing=1;
 
 
-Pyramidix PX;
+Pyramidix* PX;
 
 
 static void on_keyboard(unsigned char key, int x, int y);
@@ -65,7 +65,7 @@ using namespace std;
 int main(int argc,char** argv){
 
 
-  PX = Pyramidix();
+  PX = new Pyramidix();
   animation_ongoing = 0;
 
   /*Inicijalizacija random seed*/
@@ -170,13 +170,13 @@ static void on_keyboard(unsigned char key, int x, int y)
 		exit(0);
 		break;
 	case 'd':
-	  PX.RotationOnY += 10;
+	  PX->RotationOnY += 10;
 		break;
 	case 'a':
-		PX.RotationOnY -= 10;
+		PX->RotationOnY -= 10;
 		break;
 	case 's':
-		PX.RotationOnX -= 10;
+		PX->RotationOnX -= 10;
 		break;
 	case 'q':
     if (!animation_ongoing) {
@@ -329,6 +329,12 @@ static void on_keyboard(unsigned char key, int x, int y)
 			randomize();
 		}
     break;
+  case 'n':
+  case 'N':
+    delete PX;
+    PX=new Pyramidix();
+    glutPostRedisplay();
+    break;
 	}
 }
 
@@ -393,11 +399,11 @@ static void on_display(void)
  glMultMatrixf(matrix);
 
  /*Crtanje piraminx-a*/
-	PX.Draw();
+	PX->Draw();
 
   /*Postavljanje kratke rotacije prilikom pocetne animacije*/
   if(start_parameter >=0.4 && start_parameter<=1)
-    PX.RotationOnY+=1;
+    PX->RotationOnY+=1;
 
 	glutSwapBuffers();
 }
@@ -409,13 +415,13 @@ static void rotate(int degree)
 	{
 		switch (rotationFlag)
 		{
-			case 't' : PX.RotateTop(degree);
+			case 't' : PX->RotateTop(degree);
 				break;
-			case 'l': PX.RotateBottomLeft(degree);
+			case 'l': PX->RotateBottomLeft(degree);
 				break;
-			case 'r': PX.RotateBottomRight(degree);
+			case 'r': PX->RotateBottomRight(degree);
 				break;
-			case 'b': PX.RotateBottomBehind(degree);
+			case 'b': PX->RotateBottomBehind(degree);
 				break;
 		}
 	}
@@ -423,13 +429,13 @@ static void rotate(int degree)
 	{
 		switch (rotationFlag)
 		{
-		case 't': PX.RotateTopBig(degree);
+		case 't': PX->RotateTopBig(degree);
 			break;
-		case 'l': PX.RotateBottomLeftBig(degree);
+		case 'l': PX->RotateBottomLeftBig(degree);
 			break;
-		case 'r': PX.RotateBottomRightBig(degree);
+		case 'r': PX->RotateBottomRightBig(degree);
 			break;
-		case 'b': PX.RotateBottomBehindBig(degree);
+		case 'b': PX->RotateBottomBehindBig(degree);
 			break;
 		}
 	}
