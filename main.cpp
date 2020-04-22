@@ -244,7 +244,7 @@ static void on_keyboard(unsigned char key, int x, int y)
       glutTimerFunc(TIMER_INTERVAL, on_timer, TIMER_ID);
     }
 		break;
-	case 'r':
+	case 't':
     if (!animation_ongoing) {
       directionFlag = 'r';
       sizeFlag = 'l';
@@ -254,7 +254,7 @@ static void on_keyboard(unsigned char key, int x, int y)
       glutTimerFunc(TIMER_INTERVAL, on_timer, TIMER_ID);
     }
 		break;
-	case 'R':
+	case 'T':
     if (!animation_ongoing) {
       directionFlag = 'l';
       sizeFlag = 'l';
@@ -344,8 +344,8 @@ static void on_keyboard(unsigned char key, int x, int y)
       glutTimerFunc(TIMER_INTERVAL, on_timer, TIMER_ID);
     }
 		break;
-  case 'p':
-	case 'P':
+  case 'r':
+	case 'R':
 		if (!animation_ongoing) {
 			randomizeCount = 20;
 			randomize();
