@@ -10,10 +10,10 @@
 
 /* Ime fajla sa teksturom*/
 #define FILENAME0 "background.bmp"
-
+#define FILENAME1 "startdisplay.bmp"
 
 /* Identifikatori tekstura. */
-static GLuint texture[1];
+static GLuint texture[2];
 
 
 
@@ -45,6 +45,7 @@ int MaxTick = 9;
 /*promenljive za pocetnu animaciju*/
 double start_parameter=0;
 static int start_ongoing=1;
+static int start=1;
 
 /*Promenljiva koja broji rotacije i koja se ispisuje na ekran*/
 int number_of_moves=0;
@@ -62,9 +63,9 @@ static void randomize();
 static void on_randomizer_timer(int value);
 static int randNum(int min, int max);
 static void setDirection(int a, int b, int c);
+static void start_display();
 
 using namespace std;
-
 
 int main(int argc,char** argv){
 
@@ -87,8 +88,8 @@ int main(int argc,char** argv){
   /* callback funkcije */
   glutKeyboardFunc(on_keyboard);
   glutReshapeFunc(on_reshape);
-  glutDisplayFunc(on_display);
-  glutIdleFunc(on_display);
+  glutDisplayFunc(start_display);
+
 
 
 
@@ -99,7 +100,7 @@ int main(int argc,char** argv){
   mouse_y = 0;
 
 
-  glClearColor(0.75, 0.75, 0.75, 0);
+  glClearColor(0, 0, 0, 0);
   glEnable(GL_DEPTH_TEST);
   glEnable(GL_NORMALIZE);
 
@@ -114,11 +115,13 @@ int main(int argc,char** argv){
   /*Inicijalizuje se objekat*/
   image = image_init(0, 0);
 
+  /* Generisu se identifikatori tekstura. */
+  glGenTextures(2, texture);
+
   /* Kreira se tekstura. */
   image_read(image, FILENAME0);
 
-  /* Generisu se identifikatori tekstura. */
-  glGenTextures(1, texture);
+
 
   glBindTexture(GL_TEXTURE_2D, texture[0]);
   glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,  GL_CLAMP);
@@ -127,6 +130,15 @@ int main(int argc,char** argv){
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,image->width, image->height, 0,GL_RGB, GL_UNSIGNED_BYTE,image->pixels);
 
+
+  image_read(image, FILENAME1);
+  /*Druga tekstura*/
+  glBindTexture(GL_TEXTURE_2D, texture[1]);
+  glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,  GL_CLAMP);
+  glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,  GL_CLAMP);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,image->width, image->height, 0,GL_RGB, GL_UNSIGNED_BYTE,image->pixels);
 
   /* Iskljucuje se tekstura */
   glBindTexture(GL_TEXTURE_2D, 0);
@@ -141,9 +153,7 @@ int main(int argc,char** argv){
   glLoadIdentity();
   glGetFloatv(GL_MODELVIEW_MATRIX, matrix);
 
-  /*Pokrece se pocetna animacija*/
-  if(start_ongoing)
-        glutTimerFunc(START_TIMER_INT, start_timer, START_TIMER_ID);
+
 
   glutMainLoop();
 
@@ -175,6 +185,17 @@ static void on_keyboard(unsigned char key, int x, int y)
 		/* Zavrsava se program. */
 		exit(0);
 		break;
+  case 's':
+  case 'S':
+    if(start){
+      start=0;
+      glutDisplayFunc(on_display);
+      glutIdleFunc(on_display);
+      /*Pokrece se pocetna animacija*/
+      if(start_ongoing)
+          glutTimerFunc(START_TIMER_INT, start_timer, START_TIMER_ID);
+    }
+    break;
 	case 'q':
     if (!animation_ongoing) {
       directionFlag = 'r';
@@ -609,4 +630,34 @@ static void randomize() {
 		animation_ongoing = 1;
 		glutTimerFunc(TIMER_INTERVAL, on_randomizer_timer, TIMER_ID);
 	}
+}
+/*Pocetna slika*/
+static void start_display(){
+
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    gluLookAt(0, 0, 7, 0, 0, 0, 0, 1, 0);
+
+	  glBindTexture(GL_TEXTURE_2D, texture[1]);
+
+    glBegin(GL_QUADS);
+        glNormal3f(0, 0, 1);
+
+        glTexCoord2f(0, 0);
+        glVertex3f(-3.8, -3.8,- 2);
+
+        glTexCoord2f(1, 0);
+        glVertex3f(3.8, -3.8,- 2);
+
+        glTexCoord2f(1, 1);
+        glVertex3f(3.8, 3.8, -2);
+
+        glTexCoord2f(0, 1);
+        glVertex3f(-3.8, 3.8, -2);
+    glEnd();
+
+    glutSwapBuffers();
+
 }
