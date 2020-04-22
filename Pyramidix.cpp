@@ -145,8 +145,6 @@ void Pyramidix::RotateBottomLeftBig(int angle)
 	pp2FB->AddRotation(testFLB);
 	pp2LB->AddRotation(testFLB);
 
-
-
 	if (angle < 0) {
 		Pyramid *test = pp2FL;
 		pp2FL = pp2LB;
@@ -256,12 +254,10 @@ void Pyramidix::RotateBottomBehindBig(int angle)
 
 void Pyramidix::Draw()
 {
-	//Translacija na centar
-
+	/*Translacija na centar*/
 	glTranslatef(-1.5f, -sqrt(6) / 4, -sqrt(3) / 2);
 
-
-	//Rotacija oko osa
+	/*Rotacija oko osa*/
 	glTranslatef(1.5f, sqrt(6) / 4, sqrt(3) / 2);
 	glRotatef(RotationOnX, 1.0f, 0.0f, 0.0f);
 	glRotatef(RotationOnY, 0.0f, 1.0f, 0.0f);
@@ -297,7 +293,6 @@ void Pyramidix::Draw()
 	glPopMatrix();
 
 
-
 	pp2LR->Draw();
 	pp2FL->Draw();
 	pp2FR->Draw();
@@ -305,7 +300,6 @@ void Pyramidix::Draw()
 
 	pp2LB->Draw();
 	pp2RB->Draw();
-
 
 
 	glPushMatrix();
@@ -318,7 +312,6 @@ void Pyramidix::Draw()
 	glPopMatrix();
 
 
-
 	glPushMatrix();
 	glTranslatef(2.5f, sqrt(6) / 12, sqrt(3) / 6);
 	glRotatef(aFRB, -0.5f, sqrt(6) / 12, sqrt(3) / 6);
@@ -329,7 +322,6 @@ void Pyramidix::Draw()
 	glPopMatrix();
 
 
-
 	glPushMatrix();
 	glTranslatef(0.5f, sqrt(6) / 12, sqrt(3) / 6);
 	glRotatef(aFLB, 0.5f, sqrt(6) / 12, sqrt(3) / 6);
@@ -338,8 +330,6 @@ void Pyramidix::Draw()
 	tLFB.Draw();
 	tBFL.Draw();
 	glPopMatrix();
-
-
 
 
 	glPushMatrix();

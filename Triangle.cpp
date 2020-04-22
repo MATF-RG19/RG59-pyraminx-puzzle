@@ -1,7 +1,5 @@
 #include "Triangle.h"
 
-
-
 Triangle::Triangle()
 {
 	color = Red;
@@ -20,10 +18,9 @@ Triangle::Triangle(Point pp1, Point pp2, Point pp3, Color c1)
 
 void Triangle::Draw()
 {
-
 	glBegin(GL_TRIANGLES);
 		SetColor(color);
-		//postavljanje normala
+		/*postavljanje normala*/
 		if (reverseNormal) {
 			glNormal3f(-(p2.y - p1.y) * (p3.z - p1.z) + (p3.y - p1.y) * (p2.z - p1.z), -(p3.x - p1.x) * (p2.z - p1.z) + (p2.x - p1.x) * (p3.z - p1.z), -(p2.x - p1.x) * (p3.y - p1.y) + (p3.x - p1.x) * (p2.y - p1.y));
 		}

@@ -1,12 +1,12 @@
 #include "Pyramidix.h"
 #include "image.h"
 #include <time.h>
+#include<string>
+
 #define TIMER_INTERVAL 50
 #define TIMER_ID 0
 #define START_TIMER_ID 1
 #define START_TIMER_INT 60
-#include <GL/glut.h>
-#include<string>
 
 /* Ime fajla sa teksturom*/
 #define FILENAME0 "background.bmp"
@@ -14,7 +14,6 @@
 
 /* Identifikatori tekstura. */
 static GLuint texture[2];
-
 
 
 static int window_width, window_height;
@@ -27,11 +26,11 @@ static void on_motion(int x, int y);
 /*matrica rotacije koja se azurira na pomeraj misa*/
 static float matrix[16];
 
-//oznaka pravca rotacije, l za levo, r - za desno
+/*oznaka pravca rotacije, l za levo, r - za desno*/
 char directionFlag = 'l';
-//Simbol rotacije koji obelezava koja strana se rotira, t -top, l - left, r - right, b-behind
+/*Simbol rotacije koji obelezava koja strana se rotira, t -top, l - left, r - right, b-behind*/
 char rotationFlag = 't';
-//Flag male ili velike rotacije s - mala, l - velika
+/*Flag male ili velike rotacije s - mala, l - velika*/
 char sizeFlag = 's';
 
 /*Promenljiva za randomizaciju*/
@@ -50,6 +49,7 @@ static int start=1;
 /*Promenljiva koja broji rotacije i koja se ispisuje na ekran*/
 int number_of_moves=0;
 
+/*Objekat Pyraminx*/
 Pyramidix* PX;
 
 
@@ -68,7 +68,6 @@ static void start_display();
 using namespace std;
 
 int main(int argc,char** argv){
-
 
   PX = new Pyramidix();
   animation_ongoing = 0;
@@ -90,22 +89,17 @@ int main(int argc,char** argv){
   glutReshapeFunc(on_reshape);
   glutDisplayFunc(start_display);
 
-
-
-
   /*Pozivanje funkcija za mis*/
   glutMouseFunc(on_mouse);
   glutMotionFunc(on_motion);
   mouse_x = 0;
   mouse_y = 0;
 
-
   glClearColor(0, 0, 0, 0);
   glEnable(GL_DEPTH_TEST);
   glEnable(GL_NORMALIZE);
 
   Image * image;
-
 
   /* Ukljucuju se teksture. */
   glEnable(GL_TEXTURE_2D);
@@ -121,8 +115,7 @@ int main(int argc,char** argv){
   /* Kreira se tekstura. */
   image_read(image, FILENAME0);
 
-
-
+  /*Kreira se prva tekstura*/
   glBindTexture(GL_TEXTURE_2D, texture[0]);
   glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,  GL_CLAMP);
   glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,  GL_CLAMP);
@@ -132,7 +125,7 @@ int main(int argc,char** argv){
 
 
   image_read(image, FILENAME1);
-  /*Druga tekstura*/
+  /*Kreira se druga tekstura*/
   glBindTexture(GL_TEXTURE_2D, texture[1]);
   glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,  GL_CLAMP);
   glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,  GL_CLAMP);
@@ -143,17 +136,13 @@ int main(int argc,char** argv){
   /* Iskljucuje se tekstura */
   glBindTexture(GL_TEXTURE_2D, 0);
 
-
   /* Unistava se objekat*/
   image_done(image);
-
 
   /*Mis*/
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
   glGetFloatv(GL_MODELVIEW_MATRIX, matrix);
-
-
 
   glutMainLoop();
 
@@ -388,14 +377,12 @@ static void on_display(void)
 	GLfloat light_diffuse[] = { 1, 1, 1, 1 };
 	GLfloat light_specular[] = { 0.9, 0.9, 0.9, 1 };
 
-
   /*Ukljucivanje osvetljenja*/
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
 	glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
 	glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
-
 
   /* Postavlja se pozadina*/
   glBindTexture(GL_TEXTURE_2D, texture[0]);
@@ -415,13 +402,8 @@ static void on_display(void)
       glVertex3f(-3.8, 3.8, -2);
   glEnd();
 
-
   /* Iskljucujemo teksturu */
   glBindTexture(GL_TEXTURE_2D, 0);
-
-
-
-
 
   /*Postavlja se pogled na piramidu*/
   glMatrixMode(GL_MODELVIEW);
@@ -441,10 +423,8 @@ static void on_display(void)
     glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, s[i]);
   }
 
-
- /*Matrica za mis*/
- glMultMatrixf(matrix);
-
+  /*Matrica za mis*/
+  glMultMatrixf(matrix);
 
  /*Crtanje piraminx-a*/
 	PX->Draw();
@@ -453,11 +433,10 @@ static void on_display(void)
   if(start_parameter >=0.4 && start_parameter<=1)
     PX->RotationOnY+=1;
 
-
 	glutSwapBuffers();
 }
 
-
+/*Funkcija za rotacije delova Pyraminx-a*/
 static void rotate(int degree)
 {
 	if (sizeFlag == 's')
@@ -508,15 +487,15 @@ static void on_timer(int value)
     return;
   }
 
-
-  /* Forsira se ponovno iscrtavanje prozora. */
+  /* Forsira se ponovno iscrtavanje prozora*/
   glutPostRedisplay();
 
-  /* Po potrebi se ponovo postavlja tajmer. */
+  /* Po potrebi se ponovo postavlja tajmer*/
   if (animation_ongoing) {
     glutTimerFunc(TIMER_INTERVAL, on_timer, TIMER_ID);
   }
 }
+
 /*Mis*/
 static void on_mouse(int button, int state, int x, int y){
     mouse_x = x;
@@ -553,13 +532,13 @@ static void start_timer(int value){
 
     start_parameter+=0.01;
 
-
-
     glutPostRedisplay();
+
     if(start_ongoing){
         glutTimerFunc(START_TIMER_INT, start_timer, START_TIMER_ID);
     }
 }
+
 /*tajmer za randomizaciju*/
 static void on_randomizer_timer(int value)
 {
@@ -579,11 +558,14 @@ static void on_randomizer_timer(int value)
 		randomize();
 		return;
 	}
+
 	glutPostRedisplay();
-	if (animation_ongoing) {
+
+  if (animation_ongoing) {
 		glutTimerFunc(TIMER_INTERVAL, on_randomizer_timer, TIMER_ID);
 	}
 }
+
 /*Vraca random broj iz intervala [min,max]*/
 static int randNum(int min, int max)
 {
@@ -591,8 +573,10 @@ static int randNum(int min, int max)
   int num = rand() % range + min;
   return num;
 }
+
 /*Postavlja parametre za rotaciju gde d predtsvlja directionFlag,sF sizeFlag i rF rotationFlag*/
 static void setDirection(int d, int sF, int rF) {
+
 	if (d == 0) {
 		directionFlag = 'l';
 	}
@@ -618,6 +602,7 @@ static void setDirection(int d, int sF, int rF) {
 		rotationFlag = 't';
 	}
 }
+
 /*Funcija koja vrsi randomizaciju Pyraminx-a*/
 static void randomize() {
 	if (randomizeCount < 1)
