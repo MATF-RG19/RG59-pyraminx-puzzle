@@ -5,6 +5,8 @@
 #define TIMER_ID 0
 #define START_TIMER_ID 1
 #define START_TIMER_INT 60
+#include <GL/glut.h>
+#include<string>
 
 /* Ime fajla sa teksturom*/
 #define FILENAME0 "background.bmp"
@@ -44,6 +46,8 @@ int MaxTick = 9;
 double start_parameter=0;
 static int start_ongoing=1;
 
+/*Promenljiva koja broji rotacije i koja se ispisuje na ekran*/
+int number_of_moves=0;
 
 Pyramidix* PX;
 
@@ -123,8 +127,10 @@ int main(int argc,char** argv){
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,image->width, image->height, 0,GL_RGB, GL_UNSIGNED_BYTE,image->pixels);
 
+
   /* Iskljucuje se tekstura */
   glBindTexture(GL_TEXTURE_2D, 0);
+
 
   /* Unistava se objekat*/
   image_done(image);
@@ -169,21 +175,13 @@ static void on_keyboard(unsigned char key, int x, int y)
 		/* Zavrsava se program. */
 		exit(0);
 		break;
-	case 'd':
-	  PX->RotationOnY += 10;
-		break;
-	case 'a':
-		PX->RotationOnY -= 10;
-		break;
-	case 's':
-		PX->RotationOnX -= 10;
-		break;
 	case 'q':
     if (!animation_ongoing) {
       directionFlag = 'r';
 			sizeFlag = 'l';
 			rotationFlag ='t';
       animation_ongoing = 1;
+      number_of_moves++;
 			glutTimerFunc(TIMER_INTERVAL, on_timer, TIMER_ID);
     }
 		break;
@@ -193,6 +191,7 @@ static void on_keyboard(unsigned char key, int x, int y)
       sizeFlag = 'l';
       rotationFlag = 't';
       animation_ongoing = 1;
+      number_of_moves++;
       glutTimerFunc(TIMER_INTERVAL, on_timer, TIMER_ID);
     }
 		break;
@@ -202,6 +201,7 @@ static void on_keyboard(unsigned char key, int x, int y)
       sizeFlag = 'l';
       rotationFlag = 'l';
       animation_ongoing = 1;
+      number_of_moves++;
       glutTimerFunc(TIMER_INTERVAL, on_timer, TIMER_ID);
     }
 		break;
@@ -211,6 +211,7 @@ static void on_keyboard(unsigned char key, int x, int y)
       sizeFlag = 'l';
       rotationFlag = 'l';
       animation_ongoing = 1;
+      number_of_moves++;
       glutTimerFunc(TIMER_INTERVAL, on_timer, TIMER_ID);
     }
 		break;
@@ -220,6 +221,7 @@ static void on_keyboard(unsigned char key, int x, int y)
       sizeFlag = 'l';
       rotationFlag = 'r';
       animation_ongoing = 1;
+      number_of_moves++;
       glutTimerFunc(TIMER_INTERVAL, on_timer, TIMER_ID);
     }
 		break;
@@ -238,6 +240,7 @@ static void on_keyboard(unsigned char key, int x, int y)
       sizeFlag = 'l';
       rotationFlag = 'b';
       animation_ongoing = 1;
+      number_of_moves++;
       glutTimerFunc(TIMER_INTERVAL, on_timer, TIMER_ID);
     }
 		break;
@@ -247,6 +250,7 @@ static void on_keyboard(unsigned char key, int x, int y)
       sizeFlag = 'l';
       rotationFlag = 'b';
       animation_ongoing = 1;
+      number_of_moves++;
       glutTimerFunc(TIMER_INTERVAL, on_timer, TIMER_ID);
     }
 		break;
@@ -256,6 +260,7 @@ static void on_keyboard(unsigned char key, int x, int y)
       sizeFlag = 's';
       rotationFlag = 't';
       animation_ongoing = 1;
+      number_of_moves++;
       glutTimerFunc(TIMER_INTERVAL, on_timer, TIMER_ID);
     }
 		break;
@@ -265,6 +270,7 @@ static void on_keyboard(unsigned char key, int x, int y)
       sizeFlag = 's';
       rotationFlag = 't';
       animation_ongoing = 1;
+      number_of_moves++;
       glutTimerFunc(TIMER_INTERVAL, on_timer, TIMER_ID);
     }
 		break;
@@ -274,6 +280,7 @@ static void on_keyboard(unsigned char key, int x, int y)
       sizeFlag = 's';
       rotationFlag = 'l';
       animation_ongoing = 1;
+      number_of_moves++;
       glutTimerFunc(TIMER_INTERVAL, on_timer, TIMER_ID);
     }
 		break;
@@ -283,6 +290,7 @@ static void on_keyboard(unsigned char key, int x, int y)
       sizeFlag = 's';
       rotationFlag = 'l';
       animation_ongoing = 1;
+      number_of_moves++;
       glutTimerFunc(TIMER_INTERVAL, on_timer, TIMER_ID);
     }
 		break;
@@ -292,6 +300,7 @@ static void on_keyboard(unsigned char key, int x, int y)
       sizeFlag = 's';
       rotationFlag = 'r';
       animation_ongoing = 1;
+      number_of_moves++;
       glutTimerFunc(TIMER_INTERVAL, on_timer, TIMER_ID);
     }
 		break;
@@ -301,6 +310,7 @@ static void on_keyboard(unsigned char key, int x, int y)
       sizeFlag = 's';
       rotationFlag = 'r';
       animation_ongoing = 1;
+      number_of_moves++;
       glutTimerFunc(TIMER_INTERVAL, on_timer, TIMER_ID);
     }
 		break;
@@ -310,6 +320,7 @@ static void on_keyboard(unsigned char key, int x, int y)
       sizeFlag = 's';
       rotationFlag = 'b';
       animation_ongoing = 1;
+      number_of_moves++;
       glutTimerFunc(TIMER_INTERVAL, on_timer, TIMER_ID);
     }
 		break;
@@ -319,6 +330,7 @@ static void on_keyboard(unsigned char key, int x, int y)
       sizeFlag = 's';
       rotationFlag = 'b';
       animation_ongoing = 1;
+      number_of_moves++;
       glutTimerFunc(TIMER_INTERVAL, on_timer, TIMER_ID);
     }
 		break;
@@ -333,6 +345,7 @@ static void on_keyboard(unsigned char key, int x, int y)
   case 'N':
     delete PX;
     PX=new Pyramidix();
+    number_of_moves=0;
     glutPostRedisplay();
     break;
 	}
@@ -381,8 +394,12 @@ static void on_display(void)
       glVertex3f(-3.8, 3.8, -2);
   glEnd();
 
+
   /* Iskljucujemo teksturu */
   glBindTexture(GL_TEXTURE_2D, 0);
+
+
+
 
 
   /*Postavlja se pogled na piramidu*/
@@ -394,9 +411,19 @@ static void on_display(void)
   if(start_parameter>=1)
     start_ongoing=0;
 
+  /*Ispisivanje promenljive number_of_moves na ekran*/
+  string s="Number of moves: ";
+  s+=to_string(number_of_moves);
+  glRasterPos2f(-2.7,2.3);
+  int len = s.length();
+  for (int i = 0; i < len; i++) {
+    glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, s[i]);
+  }
+
 
  /*Matrica za mis*/
  glMultMatrixf(matrix);
+
 
  /*Crtanje piraminx-a*/
 	PX->Draw();
@@ -404,6 +431,7 @@ static void on_display(void)
   /*Postavljanje kratke rotacije prilikom pocetne animacije*/
   if(start_parameter >=0.4 && start_parameter<=1)
     PX->RotationOnY+=1;
+
 
 	glutSwapBuffers();
 }
