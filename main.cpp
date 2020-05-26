@@ -1,5 +1,5 @@
 #include "Pyramidix.h"
-#include "image.h"
+#include "texture/image.h"
 #include <time.h>
 #include<string>
 
@@ -9,8 +9,8 @@
 #define START_TIMER_INT 60
 
 /* Ime fajla sa teksturom*/
-#define FILENAME0 "background.bmp"
-#define FILENAME1 "startdisplay.bmp"
+#define FILENAME0 "texture/background.bmp"
+#define FILENAME1 "texture/startdisplay.bmp"
 
 /* Identifikatori tekstura. */
 static GLuint texture[2];
@@ -161,10 +161,7 @@ static void on_reshape(int width, int height)
   /*Perspektiva*/
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
-  gluPerspective(
-		45,
-		window_width / (float)window_height,
-		1, 20);
+  gluPerspective(45, window_width / (float)window_height, 1, 20);
 }
 
 static void on_keyboard(unsigned char key, int x, int y)
@@ -426,7 +423,7 @@ static void on_display(void)
   /*Matrica za mis*/
   glMultMatrixf(matrix);
 
- /*Crtanje piraminx-a*/
+  /*Crtanje piraminx-a*/
 	PX->Draw();
 
   /*Postavljanje kratke rotacije prilikom pocetne animacije*/
@@ -631,7 +628,7 @@ static void start_display(){
         glNormal3f(0, 0, 1);
 
         glTexCoord2f(0, 0);
-        glVertex3f(-3.8, -3.8,- 2);
+        glVertex3f(-3.8,-3.8,- 2);
 
         glTexCoord2f(1, 0);
         glVertex3f(3.8, -3.8,- 2);

@@ -1,7 +1,5 @@
 #include "RotationConfiguration.h"
 
-
-
 RotationConfiguration::RotationConfiguration()
 {
 	Angle = 0;

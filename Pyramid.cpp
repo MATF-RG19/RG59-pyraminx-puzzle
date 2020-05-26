@@ -33,23 +33,23 @@ void Pyramid::AddRotation(RotationConfiguration rotation)
 
 void Pyramid::Draw()
 {
-		glPushMatrix();
-		/*Prolazimo kroz sve rotacije od kraja*/
-		for(auto it = rotations.rbegin(); it != rotations.rend(); ++it){
-			glTranslatef((*it).Center.x, (*it).Center.y, (*it).Center.z);
-			glRotatef((*it).Angle, (*it).VectorOfRotation.x, (*it).VectorOfRotation.y, (*it).VectorOfRotation.z);
-			glTranslatef(-(*it).Center.x, -(*it).Center.y, -(*it).Center.z);
-		}
-		Triangle(PointDownLeft, PointDownRight, PointDownMiddle, Red).Draw();
-		Triangle(PointDownLeft, PointDownMiddle, PointUp, Blue).Draw();
-		/*Zbog osvetljanja postavljam da zelena ima suprotnu normalu*/
-		Triangle gT = Triangle(PointDownLeft, PointDownRight, PointUp, Green);
-		gT.reverseNormal = true;
-		gT.Draw();
-		/*Zbog osvetljanja postavljam da zuta ima suprotnu normalu*/
-		Triangle yT = Triangle(PointUp, PointDownRight, PointDownMiddle, Yellow);
-		yT.reverseNormal = true;
-		yT.Draw();
-		glPopMatrix();
+	glPushMatrix();
+	/*Prolazimo kroz sve rotacije od kraja*/
+	for(auto it = rotations.rbegin(); it != rotations.rend(); ++it){
+		glTranslatef((*it).Center.x, (*it).Center.y, (*it).Center.z);
+		glRotatef((*it).Angle, (*it).VectorOfRotation.x, (*it).VectorOfRotation.y, (*it).VectorOfRotation.z);
+		glTranslatef(-(*it).Center.x, -(*it).Center.y, -(*it).Center.z);
+	}
+	Triangle(PointDownLeft, PointDownRight, PointDownMiddle, Red).Draw();
+	Triangle(PointDownLeft, PointDownMiddle, PointUp, Blue).Draw();
+	/*Zbog osvetljanja postavljam da zelena ima suprotnu normalu*/
+	Triangle gT = Triangle(PointDownLeft, PointDownRight, PointUp, Green);
+	gT.reverseNormal = true;
+	gT.Draw();
+	/*Zbog osvetljanja postavljam da zuta ima suprotnu normalu*/
+	Triangle yT = Triangle(PointUp, PointDownRight, PointDownMiddle, Yellow);
+	yT.reverseNormal = true;
+	yT.Draw();
+	glPopMatrix();
 
 }

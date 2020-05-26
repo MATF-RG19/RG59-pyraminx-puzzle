@@ -87,7 +87,6 @@ void Pyramidix::RotateTopBig(int angle)
 	RotateTop(angle);
 	aFLR += angle;
 
-	//dodavanje
 	RotationConfiguration testFLR = RotationConfiguration();
 	testFLR.Angle = angle;
 	testFLR.Center = cFLR;
@@ -111,30 +110,18 @@ void Pyramidix::RotateTopBig(int angle)
 
 	}
 
-
 }
 
 void Pyramidix::RotateBottomLeft(int angle)
 {
 	saFLB += angle;
-	int temp = saFLB;
 
-	if (abs(saFLB) >= 360)
-		temp = abs(saFLB) % 360;
-	if (saFLB < 0)
-		temp = -temp;
 }
 
 void Pyramidix::RotateBottomLeftBig(int angle)
 {
 	RotateBottomLeft(angle);
 	aFLB += angle;
-	int temp = aFLB;
-
-	if (abs(aFLB) >= 360)
-		temp = abs(aFLB) % 360;
-	if (aFLB < 0)
-		temp = -temp;
 
 	RotationConfiguration testFLB = RotationConfiguration();
 	testFLB.Angle = angle;
@@ -163,24 +150,13 @@ void Pyramidix::RotateBottomLeftBig(int angle)
 void Pyramidix::RotateBottomRight(int angle)
 {
 	saFRB += angle;
-	int temp = saFRB;
 
-	if (abs(saFRB) >= 360)
-		temp = abs(saFRB) % 360;
-	if (saFRB < 0)
-		temp = -temp;
 }
 
 void Pyramidix::RotateBottomRightBig(int angle)
 {
 	RotateBottomRight(angle);
 	aFRB += angle;
-	int temp = aFRB;
-
-	if (abs(aFRB) >= 360)
-		temp = abs(aFRB) % 360;
-	if (aFRB < 0)
-		temp = -temp;
 
 	RotationConfiguration testFRB = RotationConfiguration();
 	testFRB.Angle = angle;
@@ -209,24 +185,12 @@ void Pyramidix::RotateBottomRightBig(int angle)
 void Pyramidix::RotateBottomBehind(int angle)
 {
 	saLRB += angle;
-	int temp = saLRB;
-
-	if (abs(saLRB) >= 360)
-		temp = abs(saLRB) % 360;
-	if (saLRB < 0)
-		temp = -temp;
 }
 
 void Pyramidix::RotateBottomBehindBig(int angle)
 {
 	RotateBottomBehind(angle);
 	aLRB += angle;
-	int temp = aLRB;
-
-	if (abs(aLRB) >= 360)
-		temp = abs(aLRB) % 360;
-	if (aLRB < 0)
-		temp = -temp;
 
 	RotationConfiguration testLRB = RotationConfiguration();
 	testLRB.Angle = angle;

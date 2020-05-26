@@ -62,14 +62,14 @@ void SetColor(Color color){
 
 	switch (color){
 	case Red:
-			SetRed();
-			break;
+		SetRed();
+		break;
 	case Green:
 		SetGreen();
 		break;
 	case Blue:
-			SetBlue();
-			break;
+		SetBlue();
+		break;
 	case Yellow:
 		SetYellow();
 		break;
