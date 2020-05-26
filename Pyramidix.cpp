@@ -92,7 +92,7 @@ void Pyramidix::RotateTopBig(int angle)
 	testFLR.Center = cFLR;
 	testFLR.VectorOfRotation = vFLR;
 
-  pp2FR->AddRotation(testFLR);
+  	pp2FR->AddRotation(testFLR);
 	pp2FL->AddRotation(testFLR);
 	pp2LR->AddRotation(testFLR);
 
