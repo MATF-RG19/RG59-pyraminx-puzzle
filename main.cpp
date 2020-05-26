@@ -35,6 +35,8 @@ char sizeFlag = 's';
 
 /*Promenljiva za randomizaciju*/
 int randomizeCount = 20;
+/*Promenljiva koja oznacava da li je randomizacija trenutno u toku*/
+bool onRandomize=false;
 
 /*Promenljive za timer funkcije*/
 int curentTick = 0;
@@ -345,16 +347,19 @@ static void on_keyboard(unsigned char key, int x, int y)
 	case 'R':
 		if (!animation_ongoing) {
 			randomizeCount = 20;
+			onRandomize=true;
 			randomize();
 		}
     break;
   case 'n':
   case 'N':
-    delete PX;
-    PX=new Pyramidix();
-    number_of_moves=0;
-    glutPostRedisplay();
-    break;
+		if(!onRandomize){
+    	delete PX;
+    	PX=new Pyramidix();
+    	number_of_moves=0;
+    	glutPostRedisplay();
+    	break;
+		}
 	}
 }
 
@@ -602,8 +607,10 @@ static void setDirection(int d, int sF, int rF) {
 
 /*Funcija koja vrsi randomizaciju Pyraminx-a*/
 static void randomize() {
-	if (randomizeCount < 1)
+	if (randomizeCount < 1){
+		onRandomize=false;
     return;
+	}
 	if (!animation_ongoing) {
 		int d = randNum(0, 1);
 		int sF = randNum(0, 1);
