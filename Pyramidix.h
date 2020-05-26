@@ -5,16 +5,16 @@ class Pyramidix
 private:
 
 
-  /*Ugao rotacije male piramide*/
+ 	/*Ugao rotacije male piramide*/
 	int saFLB, saFLR, saLRB, saFRB;
 
-  /*Ugao rotacije velike piramide*/
+  	/*Ugao rotacije velike piramide*/
 	int aFLB, aFLR, aLRB, aFRB;
 
-  /*Piramide gde su tri strane vidljive,nakon prefiksa p3 su slova koja predstavljaju orijentaciju,tj gde se nalazi piramida*/
+  	/*Piramide gde su tri strane vidljive,nakon prefiksa p3 su slova koja predstavljaju orijentaciju,tj gde se nalazi piramida*/
 	Pyramid p3FLB, p3FLR, p3FRB, p3LRB;
 
-  /*Piramide sa dve vidljive strane,nakon prefiksa p2 su slova koja predstavljaju orijentaciju,tj gde se nalazi piramida*/
+  	/*Piramide sa dve vidljive strane,nakon prefiksa p2 su slova koja predstavljaju orijentaciju,tj gde se nalazi piramida*/
 	Pyramid p2FL, p2FR, p2FB, p2LR, p2LB, p2RB;
 
 	/*F - front, L - left, R- right, B - bottom*/
@@ -24,7 +24,7 @@ private:
 	Point cFLB, cFLR, cFRB, cLRB;
 	/*vektori koji pokazuju u kom pravcu se vrsi rotacija piramide*/
 	Point vFLB, vFLR, vFRB, vLRB;
-  Pyramid *pp2FL, *pp2FR, *pp2FB, *pp2LR, *pp2LB, *pp2RB;
+  	Pyramid *pp2FL, *pp2FR, *pp2FB, *pp2LR, *pp2LB, *pp2RB;
 
 public:
 	int RotationOnX, RotationOnY, RotationOnZ;
