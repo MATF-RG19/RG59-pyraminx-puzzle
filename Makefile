@@ -23,8 +23,8 @@ Pyramid.o: Pyramid.cpp
 RotationConfiguration.o: RotationConfiguration.cpp
 	$(CXX) $(CFLAGS) $(LDLIBS) RotationConfiguration.cpp
 Pyramidix.o: Pyramidix.cpp
-		$(CXX) $(CFLAGS) $(LDLIBS) Pyramidix.cpp
+	$(CXX) $(CFLAGS) $(LDLIBS) Pyramidix.cpp
 image.o: texture/image.c
-		$(CXX) $(CFLAGS) $(LDLIBS) texture/image.c
+	$(CXX) $(CFLAGS) $(LDLIBS) texture/image.c
 clean:
 	rm -rf *o program
